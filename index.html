@@ -94,6 +94,31 @@ a{color:var(--cyan)}
   .race{min-height:110vw}
   .track{width:20vw}
 }
+
+/* Petites animations en boucle pour la télé (désactivées si l'écran demande moins de mouvement) */
+@media (prefers-reduced-motion:no-preference){
+  .event{animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.2vh)}}
+  .event{filter:drop-shadow(0 0 3.5vh rgba(53,214,255,.5)) drop-shadow(0 1.5vh 3vh rgba(0,0,0,.5))}
+  header::before{content:"";position:fixed;left:2vw;top:3vh;width:31vw;height:34vh;pointer-events:none;z-index:-1;
+    background:radial-gradient(closest-side,rgba(53,214,255,.28),transparent);animation:halo 6s ease-in-out infinite}
+  @keyframes halo{0%,100%{opacity:.55;transform:scale(.95)}50%{opacity:1;transform:scale(1.05)}}
+  .qr{animation:qrpulse 2.4s ease-in-out infinite}
+  @keyframes qrpulse{0%,100%{box-shadow:0 0 0 .5vh var(--red),0 1.5vh 4vh -1vh rgba(219,10,64,.6)}50%{box-shadow:0 0 0 .9vh var(--red),0 1.5vh 6vh 0 rgba(219,10,64,.85)}}
+  .fill{overflow:hidden}
+  .fill::after{content:"";position:absolute;left:0;right:0;height:35%;bottom:-35%;
+    background:linear-gradient(0deg,transparent,rgba(255,255,255,.45),transparent);animation:sweep 3.2s ease-in infinite}
+  .lane.x .fill::after{animation-delay:1.6s}
+  @keyframes sweep{0%{bottom:-35%}70%,100%{bottom:110%}}
+  .runner{animation:bob 2.6s ease-in-out infinite}
+  .lane.x .runner{animation-delay:1.3s}
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-.8vh)}}
+  .runner.hop{animation:hop .35s ease-out}
+  .lname .crown{display:inline-block;animation:crown 1.8s ease-in-out infinite}
+  @keyframes crown{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.15)}}
+  .finish{animation:flag 1.2s steps(2) infinite}
+  @keyframes flag{50%{background-position:.8vh 0}}
+}
 </style>
 
 <div class="tv">
