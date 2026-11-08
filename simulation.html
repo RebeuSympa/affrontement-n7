@@ -1,0 +1,345 @@
+<title>L'Affrontement N7 · Simulation</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Layout : logo de l'événement, puis une piste de course par liste (logo qui avance, Elo total qui défile), commentaire du match en cours, bloc Atlas replié */
+:root{
+  --bg:#fff5f2; --card:#ffffff; --fg:#2b1d22; --muted:#8f777d; --track:#f6e9e6; --lane:#efdcd8;
+  --chau:#2f9e5b; --chau-soft:#e2f4e8; --chau-ink:#1d6b3c;
+  --appeal:#e0405f; --appeal-soft:#fde3e9; --appeal-ink:#a8213d;
+  --up:#2f9e5b; --down:#d64545;
+  --display:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1c1417; --card:#271c20; --fg:#fbeef0; --muted:#b59ca2; --track:#21181b; --lane:#3a2a2f;
+  --chau:#4cc47e; --chau-soft:#1f3328; --chau-ink:#8fe3b0;
+  --appeal:#f2708a; --appeal-soft:#3d1f27; --appeal-ink:#ffb3c2; --up:#5fd492; --down:#ff7a7a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1c1417; --card:#271c20; --fg:#fbeef0; --muted:#b59ca2; --track:#21181b; --lane:#3a2a2f;
+  --chau:#4cc47e; --chau-soft:#1f3328; --chau-ink:#8fe3b0;
+  --appeal:#f2708a; --appeal-soft:#3d1f27; --appeal-ink:#ffb3c2; --up:#5fd492; --down:#ff7a7a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:20px}
+header{text-align:center;display:grid;gap:4px}
+.event{justify-self:center;width:clamp(150px,30vw,220px);height:auto;filter:drop-shadow(0 12px 22px rgba(40,60,160,.25))}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,6vw,46px);margin:0;line-height:1.05;text-wrap:balance}
+.sub{color:var(--muted);font-size:14px}
+.simtag{justify-self:center;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--appeal);padding:4px 14px;border-radius:999px}
+.bde{justify-self:center;width:44px;height:44px;border-radius:12px;object-fit:cover;opacity:.75;transform:rotate(-6deg);margin-top:4px}
+
+.race{background:var(--card);border-radius:28px;padding:20px 18px 16px;box-shadow:0 10px 30px -20px rgba(120,40,60,.4);display:grid;gap:16px;min-width:0}
+.race-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.race-head h2{font-family:var(--display);font-weight:600;font-size:20px;margin:0}
+.btn{font:inherit;font-weight:700;border:0;border-radius:999px;padding:8px 16px;background:var(--fg);color:var(--bg);cursor:pointer}
+.btn.pink{background:var(--appeal);color:#fff}
+.btn.ghost{background:transparent;color:var(--fg);border:2px solid var(--lane)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+.lanes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.lane{display:grid;gap:10px;justify-items:center;text-align:center;min-width:0}
+.lane.c{--k:var(--chau);--soft:var(--chau-soft);--ink:var(--chau-ink)}
+.lane.x{--k:var(--appeal);--soft:var(--appeal-soft);--ink:var(--appeal-ink)}
+.lane-top{display:grid;gap:2px;justify-items:center}
+.lname{font-family:var(--display);font-weight:700;font-size:22px;color:var(--ink)}
+.lname .crown{font-size:18px;margin-left:4px}
+.score{display:grid;justify-items:center;gap:0}
+.total{font-family:var(--display);font-weight:600;font-size:clamp(28px,5vw,42px);line-height:1;font-variant-numeric:tabular-nums}
+.delta{font-weight:800;font-size:15px;font-variant-numeric:tabular-nums;height:1.3em;opacity:0;transition:opacity .25s}
+.delta.show{opacity:1}
+.delta.up{color:var(--up)} .delta.down{color:var(--down)}
+.meta{font-size:13px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.track{position:relative;width:min(120px,100%);height:clamp(300px,52vh,440px);border-radius:999px;background:var(--track);
+  background-image:repeating-linear-gradient(0deg,transparent 0 46px,var(--lane) 46px 48px)}
+.fill{position:absolute;inset:auto 0 0 0;height:0;border-radius:999px;background:linear-gradient(0deg,var(--soft),var(--k))}
+.runner{position:absolute;left:50%;bottom:0;width:72px;height:72px;margin-bottom:-36px;transform:translateX(-50%);border-radius:50%;background:#fff;border:4px solid var(--k);overflow:hidden;display:grid;place-items:center;box-shadow:0 6px 14px -6px rgba(0,0,0,.35)}
+.runner img{width:100%;height:100%;object-fit:contain}
+.runner span{font-family:var(--display);font-weight:700;color:var(--ink)}
+.runner.hop{animation:hop .35s ease-out}
+@keyframes hop{40%{transform:translateX(-50%) translateY(-14px) scale(1.08)}100%{transform:translateX(-50%)}}
+.finish{position:absolute;left:-6px;right:-6px;top:10px;height:12px;border-radius:3px;
+  background:repeating-conic-gradient(var(--fg) 0 25%,var(--card) 0 50%) 0 0/6px 6px;opacity:.55}
+
+.ticker{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;background:var(--track);border-radius:18px;padding:10px 14px;font-size:14px;min-height:46px}
+.ticker b{font-family:var(--display);font-weight:600}
+.ticker .num{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700;font-size:13px}
+.progress{height:6px;border-radius:999px;background:var(--track);overflow:hidden}
+.progress div{height:100%;width:0;background:var(--fg);opacity:.5;border-radius:999px}
+
+details{background:var(--card);border-radius:20px;padding:14px 18px}
+summary{cursor:pointer;font-family:var(--display);font-weight:600;font-size:17px}
+.steps{display:grid;gap:12px;margin-top:12px;font-size:14px}
+.steps ol{margin:0;padding-left:20px;display:grid;gap:6px}
+.bm{display:inline-block;font-family:var(--display);font-weight:600;padding:6px 14px;border-radius:999px;background:var(--fg);color:var(--bg);text-decoration:none;cursor:grab}
+textarea{width:100%;min-height:70px;font:12px ui-monospace,monospace;border:2px dashed var(--lane);border-radius:14px;padding:10px;background:var(--bg);color:var(--fg)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+label.chk{display:flex;gap:8px;align-items:center;font-size:13px}
+.msg{font-size:13px;color:var(--muted);min-height:1.2em}
+.msg.err{color:var(--appeal-ink)}
+.warn{font-size:12px;color:var(--muted)}
+:focus-visible{outline:3px solid var(--appeal);outline-offset:2px}
+@media (max-width:560px){.lanes{gap:10px}.track{width:84px}.runner{width:58px;height:58px;margin-bottom:-29px}.lname{font-size:19px}}
+</style>
+
+<div class="wrap">
+  <header>
+    <img class="event" id="event" src="wingscup.avif" alt="Red Bull Wings Cup" onerror="this.hidden=true">
+    <div class="eyebrow">Qualifier FC 27 · Red Bull Wings Cup</div>
+    <h1>L'Affrontement N7</h1>
+    <div class="simtag">Simulation</div>
+    <div class="sub" id="status">Mode Rush · chargement des matchs…</div>
+  </header>
+
+  <section class="race" aria-label="Course à l'Elo total">
+    <div class="race-head">
+      <h2>La course à l'Elo</h2>
+      <button type="button" class="btn" id="replay" disabled>Rejouer la course</button>
+    </div>
+
+    <div class="lanes">
+    <div class="lane c">
+      <div class="lane-top">
+        <div class="lname">Chau7<span class="crown" id="c-crown"></span></div>
+        <div class="score"><span class="delta" id="c-delta"></span><span class="total" id="c-total">0</span></div>
+      </div>
+      <div class="track"><div class="fill" id="c-fill"></div><div class="finish"></div>
+        <div class="runner" id="c-run"><img src="chau7.jpg" alt="Chau7" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'C7'}))"></div></div>
+      <div class="meta" id="c-meta">0 inscrit · 0 V · 0 D</div>
+    </div>
+
+    <div class="lane x">
+      <div class="lane-top">
+        <div class="lname">7xAppeal<span class="crown" id="x-crown"></span></div>
+        <div class="score"><span class="delta" id="x-delta"></span><span class="total" id="x-total">0</span></div>
+      </div>
+      <div class="track"><div class="fill" id="x-fill"></div><div class="finish"></div>
+        <div class="runner" id="x-run"><img src="7xappeal.jpg" alt="7xAppeal" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'7x'}))"></div></div>
+      <div class="meta" id="x-meta">0 inscrit · 0 V · 0 D</div>
+    </div>
+    </div>
+
+    <div class="progress" aria-hidden="true"><div id="prog"></div></div>
+    <div class="ticker" id="ticker" aria-live="polite"><span>Départ : chaque inscrit compte 1500 pour sa liste. La course démarre au premier match importé depuis Atlas.</span></div>
+  </section>
+
+  <img class="bde" src="bde.jpg" alt="Logo du BDE" onerror="this.hidden=true">
+</div>
+
+<script>
+const ROSTER = [{"id":"c001","l":"c","h":["fc5d52cc83c05d86"]},{"id":"c002","l":"c","h":["9e637479e2f252f0"]},{"id":"c003","l":"c","h":["fb721e0ce0eee161"],"an":1},{"id":"c004","l":"c","h":["b5604628b5714567"],"an":1},{"id":"c005","l":"c","h":["588dd7671315b223"]},{"id":"c006","l":"c","h":["e36fc88e76005037"]},{"id":"c007","l":"c","h":["061a5129d80cf27c"]},{"id":"c008","l":"c","h":["39ad77f866dfe9ca"],"an":1},{"id":"c009","l":"c","h":["c7c77c066f2e7e91"]},{"id":"c010","l":"c","h":["925c370adadbca0a"]},{"id":"c011","l":"c","h":["3e8cb38e48eb4dfe"],"an":1},{"id":"c012","l":"c","h":["ddb835585be5407e"],"an":1},{"id":"c013","l":"c","h":["4eb0e74e69b718a3"]},{"id":"c014","l":"c","h":["e2f4f7163e468c50"]},{"id":"c015","l":"c","h":["a0607c934f2cdbda"]},{"id":"c016","l":"c","h":["37207d768f7ff7ab"]},{"id":"c017","l":"c","h":["4c048113099ead12"]},{"id":"c018","l":"c","h":["f496efb7d412aa84"]},{"id":"c019","l":"c","h":["1c58980af2cdb7e4"]},{"id":"c020","l":"c","h":["1acaefd42fa0df24"]},{"id":"c021","l":"c","h":["dcc3c8d6958cc8bb"]},{"id":"c022","l":"c","h":["75d81aee10553ab8"]},{"id":"c023","l":"c","h":["adec50bbfa332d73"]},{"id":"c024","l":"c","h":["e2b7cafbd5c38392"],"an":1},{"id":"c025","l":"c","h":["0958930a29886d8c"]},{"id":"c026","l":"c","h":["1e147c81507baed4"]},{"id":"c027","l":"c","h":["9f354d6e929c266a"],"an":1},{"id":"c028","l":"c","h":["3e32e531f1cc75ab"]},{"id":"c029","l":"c","h":["8319b7e8f051ceb5"]},{"id":"c030","l":"c","h":["95177ccd0f9510b8"],"an":1},{"id":"c031","l":"c","h":["fd628e5ff100cacd"],"an":1},{"id":"c032","l":"c","h":["509c0177603a7f52","46dda64737f3ebf0"],"an":1},{"id":"c033","l":"c","h":["6370157a1df9068c"]},{"id":"c034","l":"c","h":["7554bfe01cc70f68"]},{"id":"c035","l":"c","h":["e0440c62bfef2768"],"an":1},{"id":"c036","l":"c","h":["fd4b44f587f7836d"]},{"id":"c037","l":"c","h":["88110b04e06d2f90"]},{"id":"c038","l":"c","h":["6b03258b7141f092"]},{"id":"c039","l":"c","h":["eb526da7bd4b113a"]},{"id":"c040","l":"c","h":["52944d4c23e90d2f"],"an":1},{"id":"c041","l":"c","h":["a370dc0b7fb710bf"]},{"id":"c042","l":"c","h":["f1d30b90b01281ab"],"an":1},{"id":"c043","l":"c","h":["bba30aee4ea26564"]},{"id":"c044","l":"c","h":["1d36d458b3fbb64b"]},{"id":"c045","l":"c","h":["cb934f4e51ca9789"],"an":1},{"id":"c046","l":"c","h":["7ff85593654754fe"],"an":1},{"id":"c047","l":"c","h":["b0a0d04b4047624a"],"an":1},{"id":"c048","l":"c","h":["604193f9d4f6a529"]},{"id":"c049","l":"c","h":["57af11192862e0cf","f27e5716a3b0040c"],"an":1},{"id":"c050","l":"c","h":["cf8d3a495d57b540"]},{"id":"c051","l":"c","h":["68891cf0b636d4ac"],"an":1},{"id":"c052","l":"c","h":["a7e4d7ca9bc7f14f"],"an":1},{"id":"c053","l":"c","h":["26e698dbe9346a5e"]},{"id":"c054","l":"c","h":["07e2aa97ff47274b"]},{"id":"c055","l":"c","h":["1a97a895c4da8ff9"],"an":1},{"id":"c056","l":"c","h":["74f9435bf45e865f"],"an":1},{"id":"c057","l":"c","h":["5f57ed0763bb5d8b"]},{"id":"c058","l":"c","h":["b5fa2b8f9bd05cb8"],"an":1},{"id":"c059","l":"c","h":["746b0595933dfb00"],"an":1},{"id":"c060","l":"c","h":["63138563c1a0d43b"],"an":1},{"id":"c061","l":"c","h":["68f4ac9434c19092"],"an":1},{"id":"c062","l":"c","h":["9b1c913177fe2e54"]},{"id":"c063","l":"c","h":["c80a3c790418b4b2"]},{"id":"c064","l":"c","h":["689a3ba561dd83ba"]},{"id":"c065","l":"c","h":["fe210b95d7816dc3"],"an":1},{"id":"c066","l":"c","h":["3a8713bdfdc14f15"]},{"id":"c067","l":"c","h":["47043bea439f471c"]},{"id":"c068","l":"c","h":["b88bdde4a3e0ad05"]},{"id":"c069","l":"c","h":["128bb40d87b73b21"],"an":1},{"id":"c070","l":"c","h":["c9b8fcbfd5d2fa13"]},{"id":"c071","l":"c","h":["9f4d032809e99890"]},{"id":"c072","l":"c","h":["8167a577e2d8fdd8"],"an":1},{"id":"c073","l":"c","h":["4af1be7dbf9ab431"]},{"id":"c074","l":"c","h":["25cb5f00b31e3e63"]},{"id":"c075","l":"c","h":["16db44d9f666a433"]},{"id":"c076","l":"c","h":["a1b19ce6753340c9"]},{"id":"c077","l":"c","h":["807f3f254376ed42"]},{"id":"c078","l":"c","h":["b725750a1e0d0cfa"]},{"id":"c079","l":"c","h":["0ab889019db5b9c2"]},{"id":"c080","l":"c","h":["7ce1b56ef609ea55","766ffde0b1e3cd80"],"an":1},{"id":"c081","l":"c","h":["d18931175004e765"]},{"id":"c082","l":"c","h":["7fe61f8544e8f7b1"]},{"id":"c083","l":"c","h":["3fff80b2fd19f633"]},{"id":"c084","l":"c","h":["47086296f311fa09"]},{"id":"c085","l":"c","h":["a9d075be19bc4302"],"an":1},{"id":"c086","l":"c","h":["a1890a47b6b01cc1"],"an":1},{"id":"c087","l":"c","h":["9ee07a4566cc968c"],"an":1},{"id":"c088","l":"c","h":["b55bcad5ae254b71"]},{"id":"c089","l":"c","h":["2857eb65d366070a"]},{"id":"c090","l":"c","h":["832efad4fcac8b1d"]},{"id":"c091","l":"c","h":["8b9389280efdaa21"],"an":1},{"id":"c092","l":"c","h":["aabb3b6def6ef850"]},{"id":"c093","l":"c","h":["f076bf45c43164ae"]},{"id":"c094","l":"c","h":["4828dd62aa6bd854"]},{"id":"c095","l":"c","h":["b320b5ee1662e2e1"]},{"id":"c096","l":"c","h":["2fdc3f2ce13db3c4"]},{"id":"c097","l":"c","h":["c4e80bffd68e5bcf","197bc094cc37418a"],"an":1},{"id":"c098","l":"c","h":["43fa821544fb0f7a"]},{"id":"c099","l":"c","h":["a667eea256c38f6a"]},{"id":"c100","l":"c","h":["7c9cb3f5ad646cfc"],"an":1},{"id":"c101","l":"c","h":["a1bc694c1f302702"],"an":1},{"id":"c102","l":"c","h":["4d670ccce6d01390"],"an":1},{"id":"x001","l":"x","h":["6bd99bed171f210f"],"an":1},{"id":"x002","l":"x","h":["dfb33df1619f23ef"],"an":1},{"id":"x003","l":"x","h":["2bbcd705d9234db1"],"an":1},{"id":"x004","l":"x","h":["c78f8b7231817055"],"an":1},{"id":"x005","l":"x","h":["0f3205bfb656f52c"]},{"id":"x006","l":"x","h":["39624f2cdd04e173"],"an":1},{"id":"x007","l":"x","h":["f711f8f64684a086"]},{"id":"x008","l":"x","h":["402a9655b5b0ba20"]},{"id":"x009","l":"x","h":["0cdf22d335085bd6"]},{"id":"x010","l":"x","h":["13c20545109f78ac"],"an":1},{"id":"x011","l":"x","h":["690611cac7f0c417"],"an":1},{"id":"x012","l":"x","h":["17ae6b735840c19f"],"an":1},{"id":"x013","l":"x","h":["3245c4361f4af3f3"],"an":1},{"id":"x014","l":"x","h":["7f39664171d91655"]},{"id":"x015","l":"x","h":["2dcb9423d32cf1f8"]},{"id":"x016","l":"x","h":["3385148867b86685"],"an":1},{"id":"x017","l":"x","h":["da0db999490a141f"]},{"id":"x018","l":"x","h":["c03ddb519fa11651"]},{"id":"x019","l":"x","h":["ad57d5abe5544426"]},{"id":"x020","l":"x","h":["b1f992e0145898f5"]},{"id":"x021","l":"x","h":["a092181e07ad08ab"],"an":1},{"id":"x022","l":"x","h":["d9248b23c1210c2d"],"an":1},{"id":"x023","l":"x","h":["243250073effb9e3"]},{"id":"x024","l":"x","h":["057d73041735121f"],"an":1},{"id":"x025","l":"x","h":["768803c37fff2e0a"],"an":1},{"id":"x026","l":"x","h":["6d2e1c0f3bc52692"],"an":1},{"id":"x027","l":"x","h":["6eed8f75a445b10e"],"an":1},{"id":"x028","l":"x","h":["f147b18fd7ae0865"],"an":1},{"id":"x029","l":"x","h":["a69ad58685d5b122"],"an":1},{"id":"x030","l":"x","h":["16cc5296a1dc85d2"],"an":1},{"id":"x031","l":"x","h":["a3e3a20a929aedeb"],"an":1},{"id":"x032","l":"x","h":["bab41497781c41f0"],"an":1},{"id":"x033","l":"x","h":["fee53d2c7ac0caac"],"an":1},{"id":"x034","l":"x","h":["82b83772b114c97b"],"an":1},{"id":"x035","l":"x","h":["c5ea230bda721584"],"an":1},{"id":"x036","l":"x","h":["c9b1a404c9479b06"],"an":1},{"id":"x037","l":"x","h":["b25d446c9e8cd40d"],"an":1},{"id":"x038","l":"x","h":["4d187ddffb01e48f","44005e16ed5172bc"],"an":1},{"id":"x039","l":"x","h":["a4fb4f5a3c536b77","0ecdb4f67b30d0d7"],"an":1},{"id":"x040","l":"x","h":["15d83da64f09b2b5"]},{"id":"x041","l":"x","h":["12906222f8eace4e"],"an":1},{"id":"x042","l":"x","h":["c072ab6fbba60f4c"],"an":1},{"id":"x043","l":"x","h":["f9db1c1dfee74ecb"],"an":1},{"id":"x044","l":"x","h":["4aadcc6ba5c8b6ef"]},{"id":"x045","l":"x","h":["4ce8e7cc6375c9fd"]},{"id":"x046","l":"x","h":["5d9bcb19132b1fd9"],"an":1},{"id":"x047","l":"x","h":["e3537f9b0fe56216"],"an":1},{"id":"x048","l":"x","h":["95a1764a372c4782","774b552a9810a6af"],"an":1},{"id":"x049","l":"x","h":["7ff9d67bdc83c3db"]},{"id":"x050","l":"x","h":["85bc194be8fce89a"],"an":1},{"id":"x051","l":"x","h":["663d3e5204750c05"],"an":1},{"id":"x052","l":"x","h":["43dcf9ef5e541c38"],"an":1},{"id":"x053","l":"x","h":["08df37970f8a3210"]},{"id":"x054","l":"x","h":["2f619409f9a3c3c5"]},{"id":"x055","l":"x","h":["eeb23907e2b0d229"],"an":1},{"id":"x056","l":"x","h":["5dac342d474ea277"],"an":1},{"id":"x057","l":"x","h":["841e994d4f827ffa"],"an":1},{"id":"x058","l":"x","h":["7357057ee2e58ee4"],"an":1},{"id":"x059","l":"x","h":["f43fe06a56901564"],"an":1},{"id":"x060","l":"x","h":["ee256163123f90bd"]},{"id":"x061","l":"x","h":["65e846ca4d56ccd1"],"an":1},{"id":"x062","l":"x","h":["7f6e04a49e8773bb"],"an":1},{"id":"x063","l":"x","h":["8403d47ad24161b8","6100acc910db05e2"],"an":1},{"id":"x064","l":"x","h":["7a38eb39f1b2b0be"]},{"id":"x065","l":"x","h":["98884cc0baa682b7","2a62db8abcbbabfd"],"an":1},{"id":"x066","l":"x","h":["4efe4b93f76aa187"],"an":1},{"id":"x067","l":"x","h":["7926ac9a96a9ca1c"]},{"id":"x068","l":"x","h":["a547c96d1657b420"]},{"id":"x069","l":"x","h":["b98779bf134b1fa4"],"an":1},{"id":"x070","l":"x","h":["930da096a4753af5"],"an":1},{"id":"x071","l":"x","h":["3121852f787ccc0b"]},{"id":"x072","l":"x","h":["9a6d8aa04466a421"],"an":1},{"id":"x073","l":"x","h":["a35baf6396dc8073"],"an":1},{"id":"x074","l":"x","h":["9f5ee727580693fc"],"an":1},{"id":"x075","l":"x","h":["a8b3fa88e9a7e2b9"]},{"id":"x076","l":"x","h":["c505cfb0f06d7330"],"an":1},{"id":"x077","l":"x","h":["3df46b220adfd81b"],"an":1},{"id":"x078","l":"x","h":["3b3f3133f5ac1198","6be34ea327096b33"],"an":1},{"id":"x079","l":"x","h":["1ad5056a7e9e3c49"]},{"id":"x080","l":"x","h":["e1bb93cd2e1972be"]},{"id":"x081","l":"x","h":["9ccd7e9685a567d1"],"an":1},{"id":"x082","l":"x","h":["d33cfc26a9acf451"],"an":1},{"id":"x083","l":"x","h":["59c20e8297c0e0ae"],"an":1},{"id":"x084","l":"x","h":["8ab2660a101adb28"],"an":1},{"id":"x085","l":"x","h":["8afa5b23d62e9609"]},{"id":"x086","l":"x","h":["4cbb4918fc853d9b"],"an":1},{"id":"x087","l":"x","h":["e8b5aa090595a772"]},{"id":"x088","l":"x","h":["5f596e7bfce2515d"],"an":1},{"id":"x089","l":"x","h":["c06cb6138a79afa6","fa107451e228db32"],"an":1},{"id":"x090","l":"x","h":["897c194a10a64961"],"an":1},{"id":"x091","l":"x","h":["3a4fb200dd9af6a5"]},{"id":"x092","l":"x","h":["2c26f4f2eb07ced5"],"an":1}];
+const BOOKMARKLET = "(async()=>{const S=ms=>new Promise(r=>setTimeout(r,ms));const W=(n,o)=>{if(n.shadowRoot)W(n.shadowRoot,o);for(const c of n.children||[])W(c,o);if(n.tagName==='GRAVITY-LIST-ENTRY-NEW'&&n.getAttribute('type')==='boxed')o.push(n);return o};const up=e=>e.parentElement||(e.getRootNode&&e.getRootNode().host)||null;const kind=/\\/registrations/.test(location.pathname)?'reg':/\\/matches/.test(location.pathname)?'matches':'';if(location.hostname!=='atlas.redbull.com'||!kind){alert('Ouvre l’onglet Registrations ou Matches du qualifier sur Atlas, puis reclique sur le favori.');return}const find=()=>{const L=W(document.body,[]);if(!L.length)return null;let s=up(L[0]);while(s&&!(s.scrollHeight>s.clientHeight+10&&/(auto|scroll)/.test(getComputedStyle(s).overflowY)))s=up(s);return(!s||s===document.documentElement||s===document.body)?document.scrollingElement:s};let sc=find();if(!sc){alert(kind==='reg'?'Aucun inscrit visible sur cette page.':'Aucun match visible sur cette page.');return}const M=new Map();const grab=()=>{for(const e of W(document.body,[])){const r=up(e),di=r&&r.getAttribute&&r.getAttribute('data-index');const t=e.getBoundingClientRect().top+window.scrollY;const y=di!=null?+di:1e6+Math.round(t/20);M.set(y,kind==='reg'?(e.getAttribute('heading')||'').trim():[e.getAttribute('heading')||'',(e.innerText||'').replace(/\\s+/g,' ').trim()])}};let same=0,lh=-1;for(let i=0;i<300&&same<3;i++){sc=find()||sc;grab();sc.scrollTop=sc.scrollHeight;sc.dispatchEvent(new Event('scroll'));await S(900);sc=find()||sc;if(sc.scrollHeight===lh)same++;else{same=0;lh=sc.scrollHeight}}for(let pass=0;pass<3;pass++){sc=find()||sc;sc.scrollTop=0;await S(800);for(let i=0;i<8000;i++){sc=find()||sc;grab();const b=sc.scrollTop;sc.scrollTop=b+43;await S(120);if((find()||sc).scrollTop===b){await S(500);grab();break}}const ks=[...M.keys()].filter(k=>k<1e6);const mx=Math.max(-1,...ks);let gap=false;for(let k=0;k<=mx;k++)if(!M.has(k)){gap=true;break}if(!gap)break}let m=[...M.entries()].sort((a,b)=>a[0]-b[0]).map(x=>x[1]);if(kind==='reg')m=[...new Set(m.filter(Boolean))];const id=(location.pathname.match(/qualifiers\\/([0-9a-f-]+)/)||[])[1]||'';const out=JSON.stringify({atlas:1,kind,id,at:Date.now(),m});let copied=false;try{await navigator.clipboard.writeText(out);copied=true}catch(_){}const box=document.createElement('div');box.style.cssText='position:fixed;inset:auto 16px 16px auto;z-index:2147483647;background:#fff;color:#111;border:2px solid #1d7a4c;border-radius:10px;padding:14px;width:min(420px,calc(100vw - 32px));font:14px system-ui;box-shadow:0 8px 30px rgba(0,0,0,.25)';const p=document.createElement('div');p.textContent=m.length+(kind==='reg'?' inscrits récupérés. ':' matchs récupérés. ')+(copied?'C’est copié : colle-le dans la page L’Affrontement N7.':'Clique sur Copier, puis colle dans la page L’Affrontement N7.');const ta=document.createElement('textarea');ta.value=out;ta.readOnly=true;ta.style.cssText='width:100%;height:70px;margin:8px 0;font:12px monospace';const bc=document.createElement('button');bc.textContent='Copier';bc.style.cssText='padding:6px 12px;margin-right:8px;cursor:pointer';bc.onclick=async()=>{try{await navigator.clipboard.writeText(out);bc.textContent='Copié ✓'}catch(_){ta.select();document.execCommand('copy');bc.textContent='Copié ✓'}};const bx=document.createElement('button');bx.textContent='Fermer';bx.style.cssText='padding:6px 12px;cursor:pointer';bx.onclick=()=>box.remove();box.append(p,ta,bc,bx);document.body.appendChild(box);})();";
+const TOURNEY = "01a16992-4f97-7250-b105-d7b9019adff8";
+const K = 32, START = 1500;
+const NAME = {c:'Chau7', x:'7xAppeal'};
+const $ = id => document.getElementById(id);
+const nf = v => Math.round(v).toLocaleString('fr-FR');
+const norm = s => (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z ]/g,' ').split(/\s+/).filter(Boolean).sort().join(' ');
+// Version publique : les noms des membres ne sont pas dans la page, seulement leurs empreintes
+const index = {}, HX = {}, HC = {};
+ROSTER.forEach(p=>p.h.forEach(x=>{ HX[x]=p; }));
+async function prep(names){
+  for (const n of names){ const k=norm(n); if (k in HC) continue;
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('n7:'+k));
+    HC[k] = [...new Uint8Array(b)].slice(0,8).map(x=>x.toString(16).padStart(2,'0')).join('');
+    if (HX[HC[k]]) index[k] = HX[HC[k]]; }
+}
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let atlas = null, regNames = null, db = null, steps = [{c:0,x:0,pc:0,px:0,wl:{c:{w:0,l:0},x:{w:0,l:0}},m:null}], shown = 0, scale = 6000, anim = null;
+
+// Inscrits sur Atlas : la dernière liste importée, sinon celle relevée à la création de la page
+function registered(){
+  const ids = {}, unknown = [];
+  if (regNames){ for (const n of regNames){ const p = index[norm(n)]; if (p) ids[p.id]=p.l; else unknown.push(n); } }
+  else ROSTER.forEach(p=>{ if (p.an) ids[p.id]=p.l; });
+  return {ids, unknown};
+}
+
+function parseMatches(raw){
+  const out = [], unknown = new Set();
+  for (const [heading, text] of raw){
+    if (/cancel/i.test(text)) continue;
+    const sc = (text||'').match(/(\d+)\s*:\s*(\d+)/); if (!sc) continue;
+    const parts = heading.split(/\s+[–—-]\s+/); if (parts.length!==2) continue;
+    const [na, nb] = parts.map(s=>s.trim());
+    const A = index[norm(na)], B = index[norm(nb)];
+    if(!A) unknown.add(na); if(!B) unknown.add(nb);
+    const ga=+sc[1], gb=+sc[2]; if (ga===gb) continue; // mode Rush : pas de nul
+    out.push({a:A?A.id:'?'+norm(na), b:B?B.id:'?'+norm(nb), la:A?A.l:null, lb:B?B.l:null, na, nb, aw:ga>gb, sc:`${ga} : ${gb}`});
+  }
+  return {list:out, unknown:[...unknown]};
+}
+
+// Elo total d'une liste = somme des Elo de ses inscrits (chacun compte 1500 dès l'inscription)
+function buildSteps(){
+  const elo = {}, side = Object.assign({}, registered().ids), get = id => elo[id] ?? START;
+  const total = {c:0,x:0}, pl = {c:0,x:0}, wl = {c:{w:0,l:0}, x:{w:0,l:0}};
+  for (const l of Object.values(side)){ total[l]+=START; pl[l]++; }
+  const out = [{c:total.c,x:total.x,pc:pl.c,px:pl.x,wl:JSON.parse(JSON.stringify(wl)),m:null}];
+  for (const m of (atlas ? atlas.list : [])){
+    for (const [id,l] of [[m.a,m.la],[m.b,m.lb]]) if (l && !(id in side)){ side[id]=l; total[l]+=START; pl[l]++; }
+    const ra=get(m.a), rb=get(m.b), sa=m.aw?1:0;
+    const da = K*(sa - 1/(1+Math.pow(10,(rb-ra)/400)));
+    elo[m.a]=ra+da; elo[m.b]=rb-da;
+    if (m.la) total[m.la]+=da; if (m.lb) total[m.lb]-=da;
+    if (m.la) wl[m.la][m.aw?'w':'l']++; if (m.lb) wl[m.lb][m.aw?'l':'w']++;
+    out.push({c:total.c, x:total.x, pc:pl.c, px:pl.x, wl:JSON.parse(JSON.stringify(wl)), m, da});
+  }
+  return out;
+}
+
+function niceMax(v){ const t=Math.max(6000, v*1.12); const p=Math.pow(10,Math.floor(Math.log10(t))); return Math.ceil(t/(p/2))*(p/2); }
+
+function paint(vals, step){
+  for (const l of ['c','x']){
+    const pct = Math.max(0, Math.min(1, vals[l]/scale));
+    const track = $(l+'-fill').parentElement, h = track.clientHeight, r = $(l+'-run').offsetHeight/2;
+    const pos = r + 4 + pct*(h - 2*r - 30);
+    $(l+'-fill').style.height = (pos + r)+'px';
+    $(l+'-run').style.bottom = pos+'px';
+    $(l+'-total').textContent = nf(vals[l]);
+    const p = l==='c'?step.pc:step.px;
+    $(l+'-meta').textContent = `${p} inscrit${p>1?'s':''} · ${step.wl[l].w} V · ${step.wl[l].l} D`;
+  }
+  const lead = vals.c===vals.x ? null : vals.c>vals.x ? 'c' : 'x';
+  $('c-crown').textContent = lead==='c' && vals.c>0 ? ' ♛' : '';
+  $('x-crown').textContent = lead==='x' && vals.x>0 ? ' ♛' : '';
+}
+
+function showDelta(prev, cur){
+  for (const l of ['c','x']){
+    const d = cur[l]-prev[l], el=$(l+'-delta');
+    if (Math.abs(d) < 0.5){ el.className='delta'; continue; }
+    el.textContent = (d>0?'+':'−')+nf(Math.abs(d));
+    el.className = 'delta show '+(d>0?'up':'down');
+    if (d>0 && !reduce){ const r=$(l+'-run'); r.classList.remove('hop'); void r.offsetWidth; r.classList.add('hop'); }
+  }
+}
+
+function tick(i){
+  const s = steps[i], t=$('ticker'), n=steps.length-1;
+  $('prog').style.width = (n? i/n*100 : 0)+'%';
+  if (!s.m){ t.innerHTML = n ? '<span>Départ : chaque inscrit compte 1500 pour sa liste.</span>' : '<span>Départ : chaque inscrit compte 1500 pour sa liste. La course démarre au premier match importé depuis Atlas.</span>'; return; }
+  const m=s.m, w = m.aw ? [m.na,m.la] : [m.nb,m.lb], lo = m.aw ? [m.nb,m.lb] : [m.na,m.la];
+  t.innerHTML='';
+  const a=document.createElement('span');
+  const b1=document.createElement('b'); b1.textContent=w[0]; b1.style.color = w[1]?`var(--${w[1]==='c'?'chau':'appeal'}-ink)`:'';
+  const b2=document.createElement('b'); b2.textContent=lo[0]; b2.style.color = lo[1]?`var(--${lo[1]==='c'?'chau':'appeal'}-ink)`:'';
+  a.append(b1, document.createTextNode(' bat '), b2, document.createTextNode(` (${m.sc})`));
+  const r=document.createElement('span'); r.className='num'; r.textContent=`Match ${i} / ${n} · ±${Math.abs(s.da).toFixed(1)} Elo`;
+  t.append(a,r);
+}
+
+// Fait avancer la course match par match, avec les chiffres qui défilent
+function run(from){
+  cancelAnimationFrame(anim);
+  const n = steps.length-1;
+  scale = niceMax(Math.max(...steps.map(s=>Math.max(s.c,s.x))));
+  if (reduce || from>=n){ shown=n; paint(steps[n],steps[n]); tick(n); $('replay').disabled = n===0; return; }
+  const per = Math.max(140, Math.min(700, 9000/(n-from)));
+  let i = from, t0 = null;
+  $('replay').disabled = true;
+  const frame = ts => {
+    if (t0===null){ t0=ts; showDelta(steps[i], steps[i+1]); tick(i+1); }
+    const k = Math.min(1,(ts-t0)/per), e = 1-Math.pow(1-k,3);
+    const a=steps[i], b=steps[i+1];
+    paint({c:a.c+(b.c-a.c)*e, x:a.x+(b.x-a.x)*e}, b);
+    if (k>=1){ i++; shown=i; t0=null; if (i>=n){ $('replay').disabled=false; return; } }
+    anim = requestAnimationFrame(frame);
+  };
+  paint(steps[from], steps[from]); tick(from);
+  anim = requestAnimationFrame(frame);
+}
+
+function refresh(fromStart){
+  const prevLen = steps.length;
+  steps = buildSteps();
+  const from = fromStart || steps.length < prevLen ? 0 : Math.min(shown, steps.length-1);
+  run(from);
+}
+
+$('replay').onclick = ()=>{ ['c','x'].forEach(l=>$(l+'-delta').className='delta'); run(0); };
+
+// Favori Atlas
+const bm = $('bm') || document.createElement('a'); bm.href = 'javascript:' + encodeURIComponent(BOOKMARKLET);
+bm.addEventListener('click', e=>{ e.preventDefault(); say('Glisse ce bouton dans ta barre de favoris, puis utilise-le sur la page Matches d\'Atlas.'); });
+($('copybm')||{}).onclick = async ()=>{
+  try{ await navigator.clipboard.writeText('javascript:'+encodeURIComponent(BOOKMARKLET)); say('Code copié : crée un favori et colle-le comme adresse (URL).'); }
+  catch(_){ $('paste').value='javascript:'+encodeURIComponent(BOOKMARKLET); $('paste').select(); say('Copie le texte sélectionné (Ctrl+C), crée un favori et colle-le comme adresse.'); }
+};
+function say(t,err){ const m=$('msg'); m.textContent=t; m.className='msg'+(err?' err':''); }
+function showUnknown(){ if(!$('unknown')) return;
+  const u = new Set([...(atlas ? atlas.unknown : []), ...registered().unknown]);
+  $('unknown').textContent = u.size ? 'Joueurs Atlas hors des deux listes (non comptés) : '+[...u].join(', ') : '';
+}
+if($('imp'))$('imp').onclick = async ()=>{
+  let data;
+  try{ data = JSON.parse($('paste').value.trim()); }catch(_){ say('Ce texte ne vient pas du favori. Reclique sur le favori dans Atlas puis colle à nouveau.', true); return; }
+  if (!data || data.atlas!==1 || !Array.isArray(data.m)){ say('Ce texte ne vient pas du favori. Reclique sur le favori dans Atlas puis colle à nouveau.', true); return; }
+  if (data.id && data.id!==TOURNEY){ say('Ces données viennent d\'un autre tournoi Atlas. Ouvre bien L\'Affrontement – N7.', true); return; }
+  if (!db){ say('Connecte-toi à claude.ai pour enregistrer les données.', true); return; }
+  $('imp').disabled = true; say('Import en cours…');
+  try{
+    if (data.kind==='reg'){
+      const names = data.m.filter(n=>typeof n==='string');
+      await db.doc('atlas/registrations').set({names, scrapedAt:data.at||Date.now(), importedAt:Date.now()});
+      $('paste').value=''; say('Import réussi : '+names.length+' inscrits.');
+    } else {
+      const raw = $('newest').checked ? data.m.slice().reverse() : data.m.slice();
+      await db.doc('atlas/latest').set({raw, scrapedAt:data.at||Date.now(), importedAt:Date.now()});
+      $('paste').value=''; say('Import réussi : '+parseMatches(raw).list.length+' matchs.');
+    }
+  }catch(e){
+    say(e && e.code==='invalid_argument' ? 'Tu n\'as pas les droits pour importer sur cette page.' : 'L\'import a échoué. Réessaie dans un instant.', true);
+  }
+  $('imp').disabled = false;
+};
+
+
+// --- SIMULATION : matchs inventés, joueurs anonymes ---
+(function(){
+  let seed=20261108; const rnd=()=>{seed=(seed*1103515245+12345)%2147483648; return seed/2147483648;};
+  const pool={c:ROSTER.filter(p=>p.l==='c'&&p.an), x:ROSTER.filter(p=>p.l==='x'&&p.an)};
+  const label=p=>'Joueur '+(p.l==='c'?'Chau7':'7xAppeal')+' n°'+p.id.slice(1);
+  const list=[];
+  for(let i=0;i<60;i++){
+    const r=rnd(); let A,B;
+    if(r<0.7){ A=pool.c[Math.floor(rnd()*pool.c.length)]; B=pool.x[Math.floor(rnd()*pool.x.length)]; }
+    else { const l=rnd()<0.5?'c':'x'; A=pool[l][Math.floor(rnd()*pool[l].length)]; do{B=pool[l][Math.floor(rnd()*pool[l].length)];}while(B===A); }
+    const aw=rnd()<0.5; const g=1+Math.floor(rnd()*4), o=Math.floor(rnd()*g);
+    list.push({a:A.id,b:B.id,la:A.l,lb:B.l,na:label(A),nb:label(B),aw,sc:aw?g+' : '+o:o+' : '+g});
+  }
+  atlas={list,unknown:[]};
+})();
+refresh(true);
+let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{ if($('replay').disabled===false||steps.length===1) paint(steps[shown],steps[shown]); },150);});
+
+let first = true;
+(async ()=>{
+  const st = $('status');
+  if (true){ st.textContent='SIMULATION · 60 matchs inventés, joueurs anonymes · ce ne sont pas les vrais résultats'; return; }
+  db = await claude.use('db');
+  if (!db){ st.textContent='Mode Rush · connecte-toi à claude.ai pour voir les matchs'; return; }
+  const timer = setTimeout(()=>{ st.textContent='Mode Rush · les matchs ne répondent pas encore'; },10000);
+  db.doc('atlas/latest').onSnapshot(async snap=>{
+    if (!snap.metadata.fromCache) clearTimeout(timer);
+    const d = snap.exists ? snap.data() : null;
+    if (d && Array.isArray(d.raw)) await prep(d.raw.flatMap(([hd])=>String(hd).split(/\s+[–—-]\s+/)));
+    atlas = d && Array.isArray(d.raw) ? parseMatches(d.raw) : null;
+    const n = atlas ? atlas.list.length : 0;
+    st.textContent = 'Mode Rush · ' + (n ? `${n} match${n>1?'s':''} · mis à jour le ${new Date(d.importedAt).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}` : 'aucun match importé pour l\'instant');
+    showUnknown(); refresh(first); first = false;
+  }, ()=>{ clearTimeout(timer); st.textContent='Mode Rush · le direct s\'est arrêté, recharge la page'; });
+  db.doc('atlas/registrations').onSnapshot(async snap=>{
+    const d = snap.exists ? snap.data() : null;
+    const next = d && Array.isArray(d.names) ? d.names : null;
+    if (next) await prep(next);
+    if (JSON.stringify(next)===JSON.stringify(regNames)) return;
+    regNames = next; showUnknown(); refresh(false);
+  }, ()=>{});
+})();
+</script>

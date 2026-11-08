@@ -4,6 +4,8 @@ Course à l'Elo entre les listes **Chau7** et **7xAppeal** sur FC 27 (mode Rush)
 
 **Page publique :** https://rebeusympa.github.io/affrontement-n7/ (inscrits mis à jour à la main, sans les matchs en direct)
 
+**Simulation (matchs inventés) :** https://rebeusympa.github.io/affrontement-n7/simulation.html
+
 **Page en direct (claude.ai) :** https://claude.ai/artifact/9BuwUD2CrdEbpEUAPxgQGK (reçoit les matchs importés depuis Atlas ; visible une fois partagée, en étant connecté à claude.ai)
 
 ## Règles de calcul
