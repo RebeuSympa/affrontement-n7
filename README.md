@@ -2,9 +2,9 @@
 
 Course à l'Elo entre les listes **Chau7** et **7xAppeal** sur FC 27 (mode Rush), dans le cadre d'un qualifier Red Bull Wings Cup géré sur Atlas.
 
-**Page en ligne (claude.ai) :** https://claude.ai/artifact/9BuwUD2CrdEbpEUAPxgQGK
+**Page publique :** https://rebeusympa.github.io/affrontement-n7/ (inscrits mis à jour à la main, sans les matchs en direct)
 
-La page est privée tant qu'elle n'est pas partagée depuis son menu Partager.
+**Page en direct (claude.ai) :** https://claude.ai/artifact/9BuwUD2CrdEbpEUAPxgQGK (reçoit les matchs importés depuis Atlas ; visible une fois partagée, en étant connecté à claude.ai)
 
 ## Règles de calcul
 
