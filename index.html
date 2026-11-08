@@ -320,7 +320,7 @@ let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=
 let first = true;
 (async ()=>{
   const st = $('status');
-  if (!window.claude || !claude.use){ st.textContent='Mode Rush · aperçu hors ligne'; return; }
+  if (!window.claude || !claude.use){ st.textContent='Mode Rush · inscrits au 08/11 · les matchs sont sur la page en direct'; return; }
   db = await claude.use('db');
   if (!db){ st.textContent='Mode Rush · connecte-toi à claude.ai pour voir les matchs'; return; }
   const timer = setTimeout(()=>{ st.textContent='Mode Rush · les matchs ne répondent pas encore'; },10000);
