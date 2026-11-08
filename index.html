@@ -309,9 +309,30 @@ function run(from){
   anim = requestAnimationFrame(frame);
 }
 
+// Au lancement : les deux colonnes montent de 0 jusqu'à leur total de départ, puis la course démarre
+let introState = reduce ? 'done' : 'todo';
+function intro(){
+  introState = 'running';
+  cancelAnimationFrame(anim);
+  const D = 2800; let t0 = null;
+  const f = ts => {
+    if (t0===null) t0 = ts;
+    const s0 = steps[0];
+    scale = niceMax(Math.max(...steps.map(s=>Math.max(s.c,s.x))));
+    const k = Math.min(1,(ts-t0)/D), e = 1-Math.pow(1-k,3);
+    paint({c:s0.c*e, x:s0.x*e}, s0);
+    if (k<1){ anim = requestAnimationFrame(f); return; }
+    introState = 'done';
+    ['c','x'].forEach(l=>{ const r=$(l+'-run'); r.classList.remove('hop'); void r.offsetWidth; r.classList.add('hop'); });
+    setTimeout(()=>run(0), 500);
+  };
+  anim = requestAnimationFrame(f);
+}
 function refresh(fromStart){
   const prevLen = steps.length;
   steps = buildSteps();
+  if (introState==='todo'){ intro(); return; }
+  if (introState==='running') return;
   const from = fromStart || steps.length < prevLen ? 0 : Math.min(shown, steps.length-1);
   run(from);
 }
