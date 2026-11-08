@@ -3,9 +3,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;600;700;800&display=swap">
 <style>
-/* Layout : logo Wings Cup sur halo néon, titre en capitales, appel à l'inscription, puis deux colonnes de course (Chau7 / 7xAppeal) sur fond bleu nuit, commentaire du match, bloc organisateur caché aux visiteurs */
+/* Layout : écran télé 16:9 sans défilement. Colonne gauche = logo Wings Cup, titre, accroche, QR code d'inscription ; à droite = la course (deux colonnes Chau7 / 7xAppeal) et le commentaire du match. Tailles en vh pour rester lisible de loin sur n'importe quelle télé. */
 :root{
-  --bg:#030335; --bg2:#000427; --card:#0a0c48; --fg:#ffffff; --muted:#9fa6dd; --track:#05063a; --lane:rgba(255,255,255,.07);
+  --bg:#030335; --bg2:#000427; --fg:#ffffff; --muted:#a3aae0; --track:#05063a; --lane:rgba(255,255,255,.07);
   --red:#db0a40; --cyan:#35d6ff;
   --chau:#2fe38a; --chau-soft:#0b3f37; --chau-ink:#6ff0b0;
   --appeal:#ff3d86; --appeal-soft:#4a0d3a; --appeal-ink:#ff8ab6;
@@ -15,82 +15,95 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);background-image:radial-gradient(ellipse 80% 45% at 50% 0%,rgba(53,214,255,.18),transparent 70%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);background-attachment:fixed;color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45;min-height:100%;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
-.wrap{max-width:980px;margin:0 auto;display:grid;gap:22px}
-header{text-align:center;display:grid;gap:6px}
-.event{justify-self:center;width:clamp(160px,32vw,240px);height:auto;filter:drop-shadow(0 0 28px rgba(53,214,255,.45)) drop-shadow(0 14px 30px rgba(0,0,0,.5))}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}
-h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,8vw,72px);margin:0;line-height:.95;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
-.tagline{font-size:17px;font-weight:600;max-width:34em;justify-self:center;text-wrap:balance}
-.sub{color:var(--muted);font-size:14px}
-.cta{justify-self:center;display:inline-flex;align-items:center;gap:8px;margin-top:6px;font-family:var(--display);font-size:18px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;color:#fff;background:var(--red);padding:11px 26px;border-radius:4px;box-shadow:0 8px 24px -8px rgba(219,10,64,.7);transition:transform .15s}
-.cta:hover{transform:translateY(-2px)}
-.bde{justify-self:center;width:44px;height:44px;border-radius:12px;object-fit:cover;opacity:.7;transform:rotate(-6deg);margin-top:4px}
+html,body{height:100%}
+body{margin:0;overflow:hidden;background:var(--bg);background-image:radial-gradient(ellipse 45% 60% at 15% 20%,rgba(53,214,255,.16),transparent 70%),radial-gradient(ellipse 60% 50% at 75% 110%,rgba(219,10,64,.16),transparent 70%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);color:var(--fg);font-family:var(--body);line-height:1.3;
+  padding-left:max(3vw,env(safe-area-inset-left,0px));padding-right:max(3vw,env(safe-area-inset-right,0px));padding-block:3.5vh}
+.tv{height:100%;display:grid;grid-template-columns:31vw minmax(0,1fr);gap:3vw}
 
-.race{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:20px 18px 16px;display:grid;gap:16px;min-width:0}
-.race-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.race-head h2{font-family:var(--display);font-weight:400;font-size:26px;margin:0;text-transform:uppercase;letter-spacing:.02em}
+/* Colonne gauche */
+header{display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;gap:1.4vh;min-height:0}
+.event{height:22vh;width:auto;filter:drop-shadow(0 0 3.5vh rgba(53,214,255,.5)) drop-shadow(0 1.5vh 3vh rgba(0,0,0,.5))}
+.eyebrow{font-size:1.55vh;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}
+h1{font-family:var(--display);font-weight:400;font-size:8.4vh;margin:0;line-height:.92;text-transform:uppercase;letter-spacing:.01em}
+.tagline{font-size:2.3vh;font-weight:600;max-width:26vw;text-wrap:balance}
+.qr{display:flex;align-items:center;gap:1.6vw;background:#fff;color:var(--bg);border-radius:1.4vh;padding:1.4vh 1.6vw 1.4vh 1.4vh;box-shadow:0 0 0 .5vh var(--red),0 1.5vh 4vh -1vh rgba(219,10,64,.6)}
+.qr svg{height:19vh;width:19vh;display:block}
+.qr-txt{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:.6vh}
+.qr-txt b{font-family:var(--display);font-weight:400;font-size:3.6vh;line-height:.95;text-transform:uppercase;color:var(--red)}
+.qr-txt span{font-size:1.7vh;font-weight:700;max-width:10vw}
+.foot{display:flex;align-items:center;gap:1vw}
+.sub{color:var(--muted);font-size:1.5vh}
+.bde{width:5vh;height:5vh;border-radius:1.2vh;object-fit:cover;opacity:.75;transform:rotate(-6deg)}
+
+/* Course */
+.race{display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:1.6vh;min-height:0;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:2.4vh;padding:2.4vh 2vw 2vh}
+.race-head{display:flex;justify-content:center;align-items:center}
+.race-head h2{font-family:var(--display);font-weight:400;font-size:4vh;margin:0;text-transform:uppercase;letter-spacing:.04em}
+#replay{display:none}
+.lanes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2vw;min-height:0}
+.lane{display:flex;flex-direction:column;align-items:center;gap:1.2vh;text-align:center;min-height:0}
+.lane.c{--k:var(--chau);--soft:var(--chau-soft);--ink:var(--chau-ink)}
+.lane.x{--k:var(--appeal);--soft:var(--appeal-soft);--ink:var(--appeal-ink)}
+.lane-top{display:flex;flex-direction:column;align-items:center;gap:.2vh}
+.lname{font-family:var(--display);font-weight:400;font-size:5vh;line-height:1;color:var(--k);text-transform:uppercase;letter-spacing:.03em;text-shadow:0 0 2.4vh color-mix(in srgb,var(--k) 55%,transparent)}
+.lname .crown{font-size:3.6vh;margin-left:.6vw;color:#ffd34d;text-shadow:0 0 1.6vh rgba(255,211,77,.6)}
+.score{display:flex;flex-direction:column;align-items:center}
+.total{font-family:var(--display);font-weight:400;font-size:8.5vh;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.delta{font-weight:800;font-size:2.6vh;font-variant-numeric:tabular-nums;height:3.2vh;opacity:0;transition:opacity .25s}
+.delta.show{opacity:1}
+.delta.up{color:var(--up)} .delta.down{color:var(--down)}
+.meta{font-size:2.1vh;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.track{position:relative;flex:1;min-height:0;width:9vw;border-radius:999px;background:var(--track);border:1px solid rgba(255,255,255,.08);
+  background-image:repeating-linear-gradient(0deg,transparent 0 5vh,var(--lane) 5vh calc(5vh + 2px))}
+.fill{position:absolute;inset:auto 0 0 0;height:0;border-radius:999px;background:linear-gradient(0deg,var(--soft),var(--k));box-shadow:0 0 3.5vh -.3vh color-mix(in srgb,var(--k) 60%,transparent)}
+.runner{position:absolute;left:50%;bottom:0;width:10vh;height:10vh;margin-bottom:-5vh;transform:translateX(-50%);border-radius:50%;background:#fff;border:.5vh solid var(--k);overflow:hidden;display:grid;place-items:center;box-shadow:0 0 3vh color-mix(in srgb,var(--k) 70%,transparent)}
+.runner img{width:100%;height:100%;object-fit:contain}
+.runner span{font-family:var(--display);font-size:3vh;color:var(--bg)}
+.runner.hop{animation:hop .35s ease-out}
+@keyframes hop{40%{transform:translateX(-50%) translateY(-2vh) scale(1.08)}100%{transform:translateX(-50%)}}
+.finish{position:absolute;left:-.8vh;right:-.8vh;top:1.4vh;height:1.6vh;border-radius:2px;
+  background:repeating-conic-gradient(#fff 0 25%,var(--bg) 0 50%) 0 0/.8vh .8vh;opacity:.75}
+.progress{height:.6vh;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--red));border-radius:999px}
+.ticker{display:flex;align-items:center;gap:1vw;flex-wrap:wrap;justify-content:space-between;background:rgba(0,0,0,.28);border-left:.5vh solid var(--red);border-radius:.8vh;padding:1.4vh 1.4vw;font-size:2.4vh;min-height:6.4vh}
+.ticker b{font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+.ticker .num{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:600;font-size:1.9vh}
+
+/* Outil organisateur : caché sur la télé, s'ouvre seulement avec #admin à la fin de l'adresse */
+details{position:fixed;right:2vw;bottom:3vh;width:min(560px,44vw);max-height:84vh;overflow:auto;z-index:5;background:var(--bg2);border:1px dashed rgba(255,255,255,.3);border-radius:12px;padding:14px 18px;font-size:14px}
+summary{cursor:pointer;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.steps{display:grid;gap:12px;margin-top:12px}
+.steps ol{margin:0;padding-left:20px;display:grid;gap:6px}
 .btn{font:inherit;font-weight:700;border:0;border-radius:4px;padding:8px 16px;background:#fff;color:var(--bg);cursor:pointer;text-transform:uppercase;font-size:13px;letter-spacing:.06em}
 .btn.pink{background:var(--red);color:#fff}
 .btn.ghost{background:transparent;color:var(--fg);border:1px solid rgba(255,255,255,.3)}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-
-.lanes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.lane{display:grid;gap:10px;justify-items:center;text-align:center;min-width:0}
-.lane.c{--k:var(--chau);--soft:var(--chau-soft);--ink:var(--chau-ink)}
-.lane.x{--k:var(--appeal);--soft:var(--appeal-soft);--ink:var(--appeal-ink)}
-.lane-top{display:grid;gap:2px;justify-items:center}
-.lname{font-family:var(--display);font-weight:400;font-size:26px;color:var(--k);text-transform:uppercase;letter-spacing:.03em;text-shadow:0 0 18px color-mix(in srgb,var(--k) 55%,transparent)}
-.lname .crown{font-size:20px;margin-left:6px;color:#ffd34d;text-shadow:0 0 12px rgba(255,211,77,.6)}
-.score{display:grid;justify-items:center;gap:0}
-.total{font-family:var(--display);font-weight:400;font-size:clamp(34px,6vw,52px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.01em}
-.delta{font-weight:800;font-size:16px;font-variant-numeric:tabular-nums;height:1.3em;opacity:0;transition:opacity .25s}
-.delta.show{opacity:1}
-.delta.up{color:var(--up)} .delta.down{color:var(--down)}
-.meta{font-size:13px;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em}
-.track{position:relative;width:min(120px,100%);height:clamp(300px,52vh,440px);border-radius:999px;background:var(--track);border:1px solid rgba(255,255,255,.08);
-  background-image:repeating-linear-gradient(0deg,transparent 0 46px,var(--lane) 46px 48px)}
-.fill{position:absolute;inset:auto 0 0 0;height:0;border-radius:999px;background:linear-gradient(0deg,var(--soft),var(--k));box-shadow:0 0 26px -2px color-mix(in srgb,var(--k) 60%,transparent)}
-.runner{position:absolute;left:50%;bottom:0;width:72px;height:72px;margin-bottom:-36px;transform:translateX(-50%);border-radius:50%;background:#fff;border:4px solid var(--k);overflow:hidden;display:grid;place-items:center;box-shadow:0 0 22px color-mix(in srgb,var(--k) 70%,transparent)}
-.runner img{width:100%;height:100%;object-fit:contain}
-.runner span{font-family:var(--display);color:var(--bg)}
-.runner.hop{animation:hop .35s ease-out}
-@keyframes hop{40%{transform:translateX(-50%) translateY(-14px) scale(1.08)}100%{transform:translateX(-50%)}}
-.finish{position:absolute;left:-6px;right:-6px;top:10px;height:12px;border-radius:2px;
-  background:repeating-conic-gradient(#fff 0 25%,var(--bg) 0 50%) 0 0/6px 6px;opacity:.7}
-
-.ticker{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;background:rgba(0,0,0,.25);border-left:3px solid var(--red);border-radius:6px;padding:10px 14px;font-size:14px;min-height:46px}
-.ticker b{font-weight:700;text-transform:uppercase;letter-spacing:.02em}
-.ticker .num{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:600;font-size:13px}
-.progress{height:4px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
-.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--red));border-radius:999px}
-
-details{background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.18);border-radius:14px;padding:14px 18px}
-summary{cursor:pointer;font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.steps{display:grid;gap:12px;margin-top:12px;font-size:14px}
-.steps ol{margin:0;padding-left:20px;display:grid;gap:6px}
 .bm{display:inline-block;font-weight:700;padding:6px 14px;border-radius:4px;background:#fff;color:var(--bg);text-decoration:none;cursor:grab}
-textarea{width:100%;min-height:70px;font:12px ui-monospace,monospace;border:1px dashed rgba(255,255,255,.25);border-radius:8px;padding:10px;background:var(--bg2);color:var(--fg)}
+textarea{width:100%;min-height:70px;font:12px ui-monospace,monospace;border:1px dashed rgba(255,255,255,.25);border-radius:8px;padding:10px;background:var(--bg);color:var(--fg)}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 label.chk{display:flex;gap:8px;align-items:center;font-size:13px}
 .msg{font-size:13px;color:var(--muted);min-height:1.2em}
 .msg.err{color:var(--appeal-ink)}
 .warn{font-size:12px;color:var(--muted)}
 a{color:var(--cyan)}
-:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
-@media (max-width:560px){.lanes{gap:10px}.track{width:84px}.runner{width:58px;height:58px;margin-bottom:-29px}.lname{font-size:21px}}
-@media (prefers-reduced-motion:reduce){.cta{transition:none}}
+
+/* Écran en hauteur (téléphone, aperçu) : on empile et on autorise le défilement */
+@media (max-aspect-ratio:1/1){
+  body{overflow:auto;height:auto}
+  .tv{height:auto;grid-template-columns:minmax(0,1fr);gap:4vh}
+  .tagline{max-width:none}
+  .race{min-height:110vw}
+  .track{width:20vw}
+}
 </style>
 
-<div class="wrap">
+<div class="tv">
   <header>
     <img class="event" id="event" src="wingscup.avif" alt="Red Bull Wings Cup" onerror="this.hidden=true">
-    <div class="eyebrow">University League · EA Sports FC 27 · Red Bull Wings Cup</div>
+    <div class="eyebrow">University League · EA Sports FC 27</div>
     <h1>L'Affrontement N7</h1>
     <div class="tagline">Chaque victoire fait grimper ta liste. Chaque inscrit, c’est +1500. La liste avec le plus gros Elo total gagne.</div>
-    <a class="cta" href="https://redbull.com/fr-fr/events/red-bull-wings-cup-france/red-bull-wings-cup-france-university-league?checkin=01a16992-4ee1-7bbe-a94c-72fa92fe5300" target="_blank" rel="noopener">Je m’inscris</a>
-    <div class="sub" id="status">Mode Rush · chargement des matchs…</div>
+    <div class="qr"><svg role="img" aria-label="QR code vers l’inscription au qualifier" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 51" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h51v51H0z"/><path stroke="#030335" d="M1 1.5h7m3 0h1m1 0h1m5 0h1m1 0h2m1 0h1m1 0h1m1 0h2m1 0h3m2 0h2m3 0h1m1 0h7M1 2.5h1m5 0h1m5 0h1m1 0h1m2 0h1m1 0h4m1 0h1m1 0h1m2 0h1m1 0h1m1 0h3m1 0h4m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h4m1 0h2m1 0h1m2 0h4m1 0h2m1 0h2m1 0h1m1 0h1m1 0h2m3 0h2m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h4m3 0h1m1 0h1m6 0h1m1 0h1m4 0h1m1 0h5m1 0h1m2 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h1m3 0h9m1 0h1m1 0h1m6 0h1m4 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m3 0h3m3 0h1m1 0h1m1 0h1m3 0h1m1 0h1m2 0h4m1 0h1m1 0h1m3 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h4m4 0h1m1 0h3m1 0h1m3 0h3m1 0h4m1 0h1m1 0h2M1 9.5h1m1 0h5m6 0h1m4 0h1m1 0h7m4 0h1m1 0h5m1 0h2m1 0h5M2 10.5h1m1 0h1m1 0h1m4 0h3m1 0h1m1 0h1m2 0h1m1 0h2m2 0h1m3 0h4m4 0h1m1 0h1m2 0h2m1 0h1M2 11.5h1m2 0h1m1 0h1m1 0h3m3 0h4m1 0h1m2 0h1m1 0h1m1 0h1m4 0h6m1 0h1m2 0h1m1 0h3m1 0h2M1 12.5h1m2 0h2m2 0h1m3 0h1m1 0h1m11 0h2m1 0h6m3 0h1m1 0h1m4 0h2m1 0h2M2 13.5h1m2 0h3m4 0h1m7 0h1m1 0h4m4 0h3m2 0h1m1 0h2m2 0h1m2 0h1m1 0h4M1 14.5h3m4 0h2m1 0h2m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m1 0h1m3 0h2m1 0h1m3 0h2m4 0h2m3 0h1M1 15.5h3m1 0h1m1 0h1m1 0h1m1 0h7m1 0h2m1 0h1m2 0h1m1 0h1m4 0h1m1 0h3m2 0h1m6 0h4M1 16.5h1m2 0h3m1 0h2m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m5 0h2m1 0h4m3 0h2m1 0h1m3 0h2m2 0h1M2 17.5h3m1 0h2m1 0h1m1 0h1m5 0h6m1 0h4m9 0h2m1 0h5m2 0h1M1 18.5h1m2 0h1m1 0h1m1 0h3m3 0h2m7 0h2m1 0h1m1 0h5m1 0h1m1 0h2m2 0h1m1 0h4m2 0h1M1 19.5h2m1 0h1m2 0h3m3 0h3m1 0h1m1 0h1m3 0h3m1 0h2m3 0h2m1 0h5m1 0h1m2 0h1m1 0h1m2 0h1M1 20.5h1m3 0h1m2 0h1m1 0h1m1 0h1m1 0h1m4 0h1m4 0h1m1 0h1m2 0h2m2 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m2 0h2M2 21.5h3m2 0h2m5 0h1m3 0h1m2 0h1m1 0h4m1 0h1m1 0h3m2 0h3m2 0h2m5 0h1m1 0h1M1 22.5h3m1 0h1m4 0h3m3 0h2m1 0h2m2 0h1m1 0h1m4 0h3m3 0h3m3 0h4m1 0h2M1 23.5h3m1 0h7m2 0h2m4 0h1m2 0h5m4 0h6m1 0h8m1 0h2M1 24.5h1m1 0h3m3 0h1m1 0h5m1 0h2m1 0h4m3 0h1m1 0h3m1 0h2m6 0h1m3 0h1m2 0h2M3 25.5h3m1 0h1m1 0h2m1 0h1m2 0h1m5 0h3m1 0h1m1 0h1m2 0h2m4 0h6m1 0h1m1 0h5M1 26.5h1m2 0h2m3 0h3m1 0h1m4 0h2m3 0h1m3 0h6m3 0h3m1 0h2m3 0h1m1 0h2M2 27.5h8m1 0h3m4 0h2m3 0h6m3 0h1m1 0h3m1 0h2m1 0h5m2 0h2M1 28.5h3m1 0h2m1 0h2m1 0h1m1 0h3m2 0h3m3 0h3m1 0h2m1 0h1m1 0h3m2 0h2M1 29.5h1m2 0h1m1 0h4m2 0h1m3 0h1m1 0h1m3 0h1m1 0h3m3 0h3m3 0h2m1 0h5m1 0h3m1 0h1M1 30.5h1m3 0h2m1 0h2m2 0h1m2 0h4m1 0h4m1 0h2m2 0h5m3 0h2m1 0h2m1 0h1m2 0h2M3 31.5h2m1 0h4m2 0h3m2 0h3m1 0h1m1 0h1m2 0h1m2 0h1m2 0h2m1 0h2m2 0h2m1 0h2m1 0h1m2 0h2M6 32.5h1m1 0h1m3 0h1m1 0h1m2 0h2m1 0h2m3 0h1m1 0h1m1 0h3m1 0h3m2 0h1m7 0h1m1 0h1M4 33.5h1m1 0h5m1 0h3m2 0h1m1 0h3m1 0h1m2 0h3m7 0h7m2 0h1m1 0h2M4 34.5h1m1 0h1m1 0h2m3 0h1m1 0h1m1 0h3m4 0h2m4 0h5m3 0h1m1 0h3m1 0h1m3 0h1M1 35.5h1m3 0h3m5 0h4m3 0h1m1 0h4m2 0h2m5 0h1m1 0h1m1 0h3m1 0h1m1 0h2m2 0h1M4 36.5h2m3 0h1m1 0h1m1 0h3m2 0h1m1 0h3m1 0h2m1 0h5m1 0h1m1 0h1m5 0h1m6 0h2M1 37.5h2m1 0h2m1 0h3m1 0h1m3 0h2m4 0h1m2 0h1m2 0h1m7 0h3m1 0h4m1 0h2m1 0h1m1 0h1M1 38.5h2m5 0h3m1 0h1m2 0h1m2 0h1m3 0h1m1 0h2m4 0h3m5 0h1m2 0h1m2 0h1m2 0h2M2 39.5h1m3 0h4m3 0h2m1 0h1m3 0h2m1 0h4m3 0h1m2 0h12m1 0h1m1 0h2M2 40.5h3m4 0h3m10 0h1m1 0h1m2 0h5m1 0h1m1 0h1m2 0h1m2 0h1m2 0h3m1 0h1M1 41.5h3m3 0h1m1 0h1m5 0h4m2 0h1m1 0h5m3 0h2m1 0h2m1 0h2m1 0h8m1 0h1M9 42.5h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m3 0h1m3 0h3m3 0h2m2 0h1m3 0h1M1 43.5h7m2 0h2m2 0h3m3 0h1m2 0h1m1 0h1m1 0h1m1 0h1m4 0h2m1 0h3m1 0h1m1 0h1m1 0h5M1 44.5h1m5 0h1m1 0h2m2 0h3m1 0h4m1 0h2m3 0h5m1 0h1m5 0h1m1 0h1m3 0h1m2 0h2M1 45.5h1m1 0h3m1 0h1m1 0h1m2 0h3m2 0h1m2 0h1m2 0h6m1 0h1m3 0h1m1 0h3m2 0h5m1 0h2M1 46.5h1m1 0h3m1 0h1m1 0h1m1 0h2m3 0h1m1 0h1m4 0h2m3 0h5m3 0h3m1 0h2m1 0h5m1 0h1M1 47.5h1m1 0h3m1 0h1m1 0h2m1 0h1m1 0h1m1 0h2m2 0h1m2 0h3m2 0h1m1 0h1m1 0h2m1 0h5m2 0h1m1 0h1M1 48.5h1m5 0h1m3 0h2m1 0h1m7 0h2m5 0h1m1 0h1m1 0h1m8 0h2m2 0h1m2 0h1M1 49.5h7m1 0h1m1 0h2m3 0h2m2 0h3m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m1 0h2m1 0h1m7 0h3"/></svg><div class="qr-txt"><b>Scanne<br>et inscris-toi</b><span>Ton inscription rapporte 1500 à ta liste</span></div></div>
+    <div class="foot"><img class="bde" src="bde.jpg" alt="Logo du BDE" onerror="this.hidden=true"><div class="sub" id="status">Mode Rush · chargement des matchs…</div></div>
   </header>
 
   <section class="race" aria-label="Course à l'Elo total">
@@ -124,7 +137,7 @@ a{color:var(--cyan)}
     <div class="progress" aria-hidden="true"><div id="prog"></div></div>
     <div class="ticker" id="ticker" aria-live="polite"><span>Coup d’envoi : chaque inscrit compte 1500 pour sa liste. Premier match, premiers points.</span></div>
   </section>
-
+</div>
   <details id="sync" hidden>
     <summary>Organisateur · mettre à jour depuis Atlas</summary>
     <div class="steps">
@@ -142,8 +155,6 @@ a{color:var(--cyan)}
       <div class="warn" id="unknown"></div>
     </div>
   </details>
-  <img class="bde" src="bde.jpg" alt="Logo du BDE" onerror="this.hidden=true">
-</div>
 
 <script>
 const ROSTER = [{"id":"c001","l":"c","h":["fc5d52cc83c05d86"]},{"id":"c002","l":"c","h":["9e637479e2f252f0"]},{"id":"c003","l":"c","h":["fb721e0ce0eee161"],"an":1},{"id":"c004","l":"c","h":["b5604628b5714567"],"an":1},{"id":"c005","l":"c","h":["588dd7671315b223"]},{"id":"c006","l":"c","h":["e36fc88e76005037"]},{"id":"c007","l":"c","h":["061a5129d80cf27c"]},{"id":"c008","l":"c","h":["39ad77f866dfe9ca"],"an":1},{"id":"c009","l":"c","h":["c7c77c066f2e7e91"]},{"id":"c010","l":"c","h":["925c370adadbca0a"]},{"id":"c011","l":"c","h":["3e8cb38e48eb4dfe"],"an":1},{"id":"c012","l":"c","h":["ddb835585be5407e"],"an":1},{"id":"c013","l":"c","h":["4eb0e74e69b718a3"]},{"id":"c014","l":"c","h":["e2f4f7163e468c50"]},{"id":"c015","l":"c","h":["a0607c934f2cdbda"]},{"id":"c016","l":"c","h":["37207d768f7ff7ab"]},{"id":"c017","l":"c","h":["4c048113099ead12"]},{"id":"c018","l":"c","h":["f496efb7d412aa84"]},{"id":"c019","l":"c","h":["1c58980af2cdb7e4"]},{"id":"c020","l":"c","h":["1acaefd42fa0df24"]},{"id":"c021","l":"c","h":["dcc3c8d6958cc8bb"]},{"id":"c022","l":"c","h":["75d81aee10553ab8"]},{"id":"c023","l":"c","h":["adec50bbfa332d73"]},{"id":"c024","l":"c","h":["e2b7cafbd5c38392"],"an":1},{"id":"c025","l":"c","h":["0958930a29886d8c"]},{"id":"c026","l":"c","h":["1e147c81507baed4"]},{"id":"c027","l":"c","h":["9f354d6e929c266a"],"an":1},{"id":"c028","l":"c","h":["3e32e531f1cc75ab"]},{"id":"c029","l":"c","h":["8319b7e8f051ceb5"]},{"id":"c030","l":"c","h":["95177ccd0f9510b8"],"an":1},{"id":"c031","l":"c","h":["fd628e5ff100cacd"],"an":1},{"id":"c032","l":"c","h":["509c0177603a7f52","46dda64737f3ebf0"],"an":1},{"id":"c033","l":"c","h":["6370157a1df9068c"]},{"id":"c034","l":"c","h":["7554bfe01cc70f68"]},{"id":"c035","l":"c","h":["e0440c62bfef2768"],"an":1},{"id":"c036","l":"c","h":["fd4b44f587f7836d"]},{"id":"c037","l":"c","h":["88110b04e06d2f90"]},{"id":"c038","l":"c","h":["6b03258b7141f092"]},{"id":"c039","l":"c","h":["eb526da7bd4b113a"]},{"id":"c040","l":"c","h":["52944d4c23e90d2f"],"an":1},{"id":"c041","l":"c","h":["a370dc0b7fb710bf"]},{"id":"c042","l":"c","h":["f1d30b90b01281ab"],"an":1},{"id":"c043","l":"c","h":["bba30aee4ea26564"]},{"id":"c044","l":"c","h":["1d36d458b3fbb64b"]},{"id":"c045","l":"c","h":["cb934f4e51ca9789"],"an":1},{"id":"c046","l":"c","h":["7ff85593654754fe"],"an":1},{"id":"c047","l":"c","h":["b0a0d04b4047624a"],"an":1},{"id":"c048","l":"c","h":["604193f9d4f6a529"]},{"id":"c049","l":"c","h":["57af11192862e0cf","f27e5716a3b0040c"],"an":1},{"id":"c050","l":"c","h":["cf8d3a495d57b540"]},{"id":"c051","l":"c","h":["68891cf0b636d4ac"],"an":1},{"id":"c052","l":"c","h":["a7e4d7ca9bc7f14f"],"an":1},{"id":"c053","l":"c","h":["26e698dbe9346a5e"]},{"id":"c054","l":"c","h":["07e2aa97ff47274b"]},{"id":"c055","l":"c","h":["1a97a895c4da8ff9"],"an":1},{"id":"c056","l":"c","h":["74f9435bf45e865f"],"an":1},{"id":"c057","l":"c","h":["5f57ed0763bb5d8b"]},{"id":"c058","l":"c","h":["b5fa2b8f9bd05cb8"],"an":1},{"id":"c059","l":"c","h":["746b0595933dfb00"],"an":1},{"id":"c060","l":"c","h":["63138563c1a0d43b"],"an":1},{"id":"c061","l":"c","h":["68f4ac9434c19092"],"an":1},{"id":"c062","l":"c","h":["9b1c913177fe2e54"]},{"id":"c063","l":"c","h":["c80a3c790418b4b2"]},{"id":"c064","l":"c","h":["689a3ba561dd83ba"]},{"id":"c065","l":"c","h":["fe210b95d7816dc3"],"an":1},{"id":"c066","l":"c","h":["3a8713bdfdc14f15"]},{"id":"c067","l":"c","h":["47043bea439f471c"]},{"id":"c068","l":"c","h":["b88bdde4a3e0ad05"]},{"id":"c069","l":"c","h":["128bb40d87b73b21"],"an":1},{"id":"c070","l":"c","h":["c9b8fcbfd5d2fa13"]},{"id":"c071","l":"c","h":["9f4d032809e99890"]},{"id":"c072","l":"c","h":["8167a577e2d8fdd8"],"an":1},{"id":"c073","l":"c","h":["4af1be7dbf9ab431"]},{"id":"c074","l":"c","h":["25cb5f00b31e3e63"]},{"id":"c075","l":"c","h":["16db44d9f666a433"],"an":1},{"id":"c076","l":"c","h":["a1b19ce6753340c9"]},{"id":"c077","l":"c","h":["807f3f254376ed42"]},{"id":"c078","l":"c","h":["b725750a1e0d0cfa"]},{"id":"c079","l":"c","h":["0ab889019db5b9c2"]},{"id":"c080","l":"c","h":["7ce1b56ef609ea55","766ffde0b1e3cd80"],"an":1},{"id":"c081","l":"c","h":["d18931175004e765"]},{"id":"c082","l":"c","h":["7fe61f8544e8f7b1"]},{"id":"c083","l":"c","h":["3fff80b2fd19f633"]},{"id":"c084","l":"c","h":["47086296f311fa09"],"an":1},{"id":"c085","l":"c","h":["a9d075be19bc4302"],"an":1},{"id":"c086","l":"c","h":["a1890a47b6b01cc1"],"an":1},{"id":"c087","l":"c","h":["9ee07a4566cc968c"],"an":1},{"id":"c088","l":"c","h":["b55bcad5ae254b71"]},{"id":"c089","l":"c","h":["2857eb65d366070a"]},{"id":"c090","l":"c","h":["832efad4fcac8b1d"]},{"id":"c091","l":"c","h":["8b9389280efdaa21"],"an":1},{"id":"c092","l":"c","h":["aabb3b6def6ef850"]},{"id":"c093","l":"c","h":["f076bf45c43164ae"]},{"id":"c094","l":"c","h":["4828dd62aa6bd854"]},{"id":"c095","l":"c","h":["b320b5ee1662e2e1"]},{"id":"c096","l":"c","h":["2fdc3f2ce13db3c4"]},{"id":"c097","l":"c","h":["c4e80bffd68e5bcf","197bc094cc37418a"],"an":1},{"id":"c098","l":"c","h":["43fa821544fb0f7a"]},{"id":"c099","l":"c","h":["a667eea256c38f6a"]},{"id":"c100","l":"c","h":["7c9cb3f5ad646cfc"],"an":1},{"id":"c101","l":"c","h":["a1bc694c1f302702"],"an":1},{"id":"c102","l":"c","h":["4d670ccce6d01390"],"an":1},{"id":"x001","l":"x","h":["6bd99bed171f210f"],"an":1},{"id":"x002","l":"x","h":["dfb33df1619f23ef"],"an":1},{"id":"x003","l":"x","h":["2bbcd705d9234db1"],"an":1},{"id":"x004","l":"x","h":["c78f8b7231817055"],"an":1},{"id":"x005","l":"x","h":["0f3205bfb656f52c"]},{"id":"x006","l":"x","h":["39624f2cdd04e173"],"an":1},{"id":"x007","l":"x","h":["f711f8f64684a086"]},{"id":"x008","l":"x","h":["402a9655b5b0ba20"]},{"id":"x009","l":"x","h":["0cdf22d335085bd6"]},{"id":"x010","l":"x","h":["13c20545109f78ac"],"an":1},{"id":"x011","l":"x","h":["690611cac7f0c417"],"an":1},{"id":"x012","l":"x","h":["17ae6b735840c19f"],"an":1},{"id":"x013","l":"x","h":["3245c4361f4af3f3"],"an":1},{"id":"x014","l":"x","h":["7f39664171d91655"]},{"id":"x015","l":"x","h":["2dcb9423d32cf1f8"]},{"id":"x016","l":"x","h":["3385148867b86685"],"an":1},{"id":"x017","l":"x","h":["da0db999490a141f"]},{"id":"x018","l":"x","h":["c03ddb519fa11651"]},{"id":"x019","l":"x","h":["ad57d5abe5544426"]},{"id":"x020","l":"x","h":["b1f992e0145898f5"]},{"id":"x021","l":"x","h":["a092181e07ad08ab"],"an":1},{"id":"x022","l":"x","h":["d9248b23c1210c2d"],"an":1},{"id":"x023","l":"x","h":["243250073effb9e3"]},{"id":"x024","l":"x","h":["057d73041735121f"],"an":1},{"id":"x025","l":"x","h":["768803c37fff2e0a"],"an":1},{"id":"x026","l":"x","h":["6d2e1c0f3bc52692"],"an":1},{"id":"x027","l":"x","h":["6eed8f75a445b10e"],"an":1},{"id":"x028","l":"x","h":["f147b18fd7ae0865"],"an":1},{"id":"x029","l":"x","h":["a69ad58685d5b122"],"an":1},{"id":"x030","l":"x","h":["16cc5296a1dc85d2"],"an":1},{"id":"x031","l":"x","h":["a3e3a20a929aedeb"],"an":1},{"id":"x032","l":"x","h":["bab41497781c41f0"],"an":1},{"id":"x033","l":"x","h":["fee53d2c7ac0caac"],"an":1},{"id":"x034","l":"x","h":["82b83772b114c97b"],"an":1},{"id":"x035","l":"x","h":["c5ea230bda721584"],"an":1},{"id":"x036","l":"x","h":["c9b1a404c9479b06"],"an":1},{"id":"x037","l":"x","h":["b25d446c9e8cd40d"],"an":1},{"id":"x038","l":"x","h":["4d187ddffb01e48f","44005e16ed5172bc"],"an":1},{"id":"x039","l":"x","h":["a4fb4f5a3c536b77","0ecdb4f67b30d0d7"],"an":1},{"id":"x040","l":"x","h":["15d83da64f09b2b5"]},{"id":"x041","l":"x","h":["12906222f8eace4e"],"an":1},{"id":"x042","l":"x","h":["c072ab6fbba60f4c"],"an":1},{"id":"x043","l":"x","h":["f9db1c1dfee74ecb"],"an":1},{"id":"x044","l":"x","h":["4aadcc6ba5c8b6ef"]},{"id":"x045","l":"x","h":["4ce8e7cc6375c9fd"]},{"id":"x046","l":"x","h":["5d9bcb19132b1fd9"],"an":1},{"id":"x047","l":"x","h":["e3537f9b0fe56216"],"an":1},{"id":"x048","l":"x","h":["95a1764a372c4782","774b552a9810a6af"],"an":1},{"id":"x049","l":"x","h":["7ff9d67bdc83c3db"]},{"id":"x050","l":"x","h":["85bc194be8fce89a"],"an":1},{"id":"x051","l":"x","h":["663d3e5204750c05"],"an":1},{"id":"x052","l":"x","h":["43dcf9ef5e541c38"],"an":1},{"id":"x053","l":"x","h":["08df37970f8a3210"]},{"id":"x054","l":"x","h":["2f619409f9a3c3c5"]},{"id":"x055","l":"x","h":["eeb23907e2b0d229"],"an":1},{"id":"x056","l":"x","h":["5dac342d474ea277"],"an":1},{"id":"x057","l":"x","h":["841e994d4f827ffa"],"an":1},{"id":"x058","l":"x","h":["7357057ee2e58ee4"],"an":1},{"id":"x059","l":"x","h":["f43fe06a56901564"],"an":1},{"id":"x060","l":"x","h":["ee256163123f90bd"]},{"id":"x061","l":"x","h":["65e846ca4d56ccd1"],"an":1},{"id":"x062","l":"x","h":["7f6e04a49e8773bb"],"an":1},{"id":"x063","l":"x","h":["8403d47ad24161b8","6100acc910db05e2"],"an":1},{"id":"x064","l":"x","h":["7a38eb39f1b2b0be"]},{"id":"x065","l":"x","h":["98884cc0baa682b7","2a62db8abcbbabfd"],"an":1},{"id":"x066","l":"x","h":["4efe4b93f76aa187"],"an":1},{"id":"x067","l":"x","h":["7926ac9a96a9ca1c"]},{"id":"x068","l":"x","h":["a547c96d1657b420"]},{"id":"x069","l":"x","h":["b98779bf134b1fa4"],"an":1},{"id":"x070","l":"x","h":["930da096a4753af5"],"an":1},{"id":"x071","l":"x","h":["3121852f787ccc0b"]},{"id":"x072","l":"x","h":["9a6d8aa04466a421"],"an":1},{"id":"x073","l":"x","h":["a35baf6396dc8073"],"an":1},{"id":"x074","l":"x","h":["9f5ee727580693fc"],"an":1},{"id":"x075","l":"x","h":["a8b3fa88e9a7e2b9"]},{"id":"x076","l":"x","h":["c505cfb0f06d7330"],"an":1},{"id":"x077","l":"x","h":["3df46b220adfd81b"],"an":1},{"id":"x078","l":"x","h":["3b3f3133f5ac1198","6be34ea327096b33"],"an":1},{"id":"x079","l":"x","h":["1ad5056a7e9e3c49"]},{"id":"x080","l":"x","h":["e1bb93cd2e1972be"]},{"id":"x081","l":"x","h":["9ccd7e9685a567d1"],"an":1},{"id":"x082","l":"x","h":["d33cfc26a9acf451"],"an":1},{"id":"x083","l":"x","h":["59c20e8297c0e0ae"],"an":1},{"id":"x084","l":"x","h":["8ab2660a101adb28"],"an":1},{"id":"x085","l":"x","h":["8afa5b23d62e9609"]},{"id":"x086","l":"x","h":["4cbb4918fc853d9b"],"an":1},{"id":"x087","l":"x","h":["e8b5aa090595a772"]},{"id":"x088","l":"x","h":["5f596e7bfce2515d"],"an":1},{"id":"x089","l":"x","h":["c06cb6138a79afa6","fa107451e228db32"],"an":1},{"id":"x090","l":"x","h":["897c194a10a64961"],"an":1},{"id":"x091","l":"x","h":["3a4fb200dd9af6a5"]},{"id":"x092","l":"x","h":["2c26f4f2eb07ced5"],"an":1}];
@@ -164,6 +175,8 @@ async function prep(names){
     if (HX[HC[k]]) index[k] = HX[HC[k]]; }
 }
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const showAdmin = ()=>{ const s=document.getElementById('sync'); if (s) s.hidden = location.hash!=='#admin'; };
+window.addEventListener('hashchange', showAdmin); showAdmin();
 
 let atlas = null, regNames = null, db = null, steps = [{c:0,x:0,pc:0,px:0,wl:{c:{w:0,l:0},x:{w:0,l:0}},m:null}], shown = 0, scale = 6000, anim = null;
 
@@ -316,14 +329,13 @@ $('imp').onclick = async ()=>{
 };
 
 refresh(true);
-let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{ if($('replay').disabled===false||steps.length===1) paint(steps[shown],steps[shown]); },150);});
+let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{ paint(steps[shown],steps[shown]); },150);});
 
 let first = true;
 (async ()=>{
   const st = $('status');
   if (!window.claude || !claude.use){ st.textContent='Mode Rush · inscrits au 08/11 · les matchs sont sur la page en direct'; return; }
   db = await claude.use('db');
-  try{ const u = await claude.use('user'); if (u && ((u.isOwner && await u.isOwner()) || (u.canEdit && await u.canEdit()))) $('sync').hidden = false; }catch(_){}
   if (!db){ st.textContent='Mode Rush · connecte-toi à claude.ai pour voir les matchs'; return; }
   const timer = setTimeout(()=>{ st.textContent='Mode Rush · les matchs ne répondent pas encore'; },10000);
   db.doc('atlas/latest').onSnapshot(async snap=>{
