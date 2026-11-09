@@ -1,8 +1,8 @@
-# L'Affrontement N7
+# L'Affrontement
 
-Course à l'Elo entre les listes **Chau7** et **7xAppeal** sur FC 27 (mode Rush), dans le cadre d'un qualifier Red Bull Wings Cup géré sur Atlas.
+Course à l'Elo entre les listes **Chau7** (102 membres) et **7xAppeal** (94 membres) sur FC 27 (mode Rush), dans le cadre d'un qualifier Red Bull Wings Cup géré sur Atlas.
 
-**Visuel télé (public) :** https://rebeusympa.github.io/affrontement-n7/ (plein écran 16:9, QR code d’inscription, inscrits mis à jour à la main)
+**Visuel télé (public) :** https://rebeusympa.github.io/affrontement-n7/ (plein écran 16:9, se recharge tout seul toutes les 5 minutes)
 
 **Simulation (matchs inventés) :** https://rebeusympa.github.io/affrontement-n7/simulation.html
 
@@ -10,24 +10,29 @@ Course à l'Elo entre les listes **Chau7** et **7xAppeal** sur FC 27 (mode Rush)
 
 ## Règles de calcul
 
-- Chaque inscrit sur Atlas compte **1500** pour sa liste dès son inscription.
-- Après chaque match, l'Elo des deux joueurs change selon la formule classique (K = 32). Il n'y a pas de match nul.
-- L'Elo total d'une liste est la somme des Elo de ses inscrits. La liste qui a le plus gros total est en tête.
+- Les deux listes partent à **1500**.
+- Chaque joueur a son propre Elo (départ 1500, K = 32, pas de match nul en mode Rush). Après chaque match, le score de la liste gagne ou perd les points Elo de son joueur.
+- Ce que gagne une liste, l'autre le perd : un match entre deux joueurs de la même liste rapporte 0 net.
+- **Bonus d'inscription :** la liste qui a le plus fort pourcentage de membres inscrits sur Atlas gagne l'écart de pourcentage en points (exemple : 92 % contre 83 % → +9).
+- L'écran affiche les deux scores, un grand « VS » et l'écart en direct.
 
-## Mettre à jour depuis Atlas
+## Mise à jour
 
-1. Crée un favori avec le code de `bookmarklet.js` (ou glisse le bouton « Récup Atlas N7 » depuis la page).
-2. Sur Atlas, ouvre L'Affrontement – N7, onglet **Registrations** ou **Matches**, et clique sur le favori.
-3. Colle le résultat dans « Mettre à jour depuis Atlas » sur la page, puis clique sur **Importer**.
+La page publique est statique : les inscrits et les matchs y sont intégrés à chaque mise à jour du dépôt.
+
+1. Crée un favori avec le code de `bookmarklet.js`.
+2. Sur Atlas, ouvre L'Affrontement – N7, onglet **Registrations** ou **Matches**, et clique sur le favori : il copie tout l'onglet.
+3. L'organisateur importe ce relevé ; la page est reconstruite et publiée ici.
 
 ## Contenu
 
 | Fichier | Rôle |
 |---|---|
-| `index.html` | La page de la course (version publique). Les matchs en direct ne fonctionnent que sur claude.ai. |
+| `index.html` | Le visuel télé (version publique, inscrits et matchs intégrés) |
+| `simulation.html` | La même page avec 60 matchs inventés entre joueurs anonymes |
 | `chau7.jpg`, `7xappeal.jpg`, `bde.jpg`, `wingscup.avif` | Logos affichés sur la page |
 | `bookmarklet.js` | Code du favori qui récupère les inscrits et les matchs sur Atlas |
 
 ## Confidentialité
 
-Les noms des membres des listes ne sont pas publiés. Dans `index.html`, chaque membre est remplacé par un numéro et une empreinte (SHA-256 tronqué) de son nom : la page reconnaît un joueur quand Atlas lui donne son nom, mais on ne peut pas lire la liste des membres dans le fichier.
+Les noms des membres des listes ne sont pas publiés. Dans `index.html`, chaque membre est remplacé par un numéro et une empreinte (SHA-256 tronqué) de son nom, et les matchs s'affichent sous la forme « Joueur Chau7 bat Joueur 7xAppeal ».
