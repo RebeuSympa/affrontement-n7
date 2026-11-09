@@ -52,7 +52,7 @@ h1{font-family:var(--display);font-weight:400;font-size:8.4vh;margin:0;line-heig
 .delta{font-weight:800;font-size:2.6vh;font-variant-numeric:tabular-nums;height:3.2vh;opacity:0;transition:opacity .25s}
 .delta.show{opacity:1}
 .delta.up{color:var(--up)} .delta.down{color:var(--down)}
-.meta{font-size:2.1vh;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.meta{white-space:pre-line;line-height:1.25;font-size:2.1vh;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em}
 .track{position:relative;flex:1;min-height:0;width:9vw;border-radius:999px;background:var(--track);border:1px solid rgba(255,255,255,.08);
   background-image:repeating-linear-gradient(0deg,transparent 0 5vh,var(--lane) 5vh calc(5vh + 2px))}
 .fill{position:absolute;inset:auto 0 0 0;height:0;border-radius:999px;background:linear-gradient(0deg,var(--soft),var(--k));box-shadow:0 0 3.5vh -.3vh color-mix(in srgb,var(--k) 60%,transparent)}
@@ -126,8 +126,8 @@ a{color:var(--cyan)}
     <img class="event" id="event" src="wingscup.avif" alt="Red Bull Wings Cup" onerror="this.hidden=true">
     <div class="eyebrow">University League · EA Sports FC 27</div>
     <h1>L'Affrontement</h1>
-    <div class="tagline">Chaque victoire fait grimper ta liste. Chaque inscrit, c’est +1500. La liste avec le plus gros Elo total gagne.</div>
-    <div class="qr"><svg role="img" aria-label="QR code vers l’inscription au qualifier" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 51" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h51v51H0z"/><path stroke="#030335" d="M1 1.5h7m3 0h1m1 0h1m5 0h1m1 0h2m1 0h1m1 0h1m1 0h2m1 0h3m2 0h2m3 0h1m1 0h7M1 2.5h1m5 0h1m5 0h1m1 0h1m2 0h1m1 0h4m1 0h1m1 0h1m2 0h1m1 0h1m1 0h3m1 0h4m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h4m1 0h2m1 0h1m2 0h4m1 0h2m1 0h2m1 0h1m1 0h1m1 0h2m3 0h2m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h4m3 0h1m1 0h1m6 0h1m1 0h1m4 0h1m1 0h5m1 0h1m2 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h1m3 0h9m1 0h1m1 0h1m6 0h1m4 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m3 0h3m3 0h1m1 0h1m1 0h1m3 0h1m1 0h1m2 0h4m1 0h1m1 0h1m3 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h4m4 0h1m1 0h3m1 0h1m3 0h3m1 0h4m1 0h1m1 0h2M1 9.5h1m1 0h5m6 0h1m4 0h1m1 0h7m4 0h1m1 0h5m1 0h2m1 0h5M2 10.5h1m1 0h1m1 0h1m4 0h3m1 0h1m1 0h1m2 0h1m1 0h2m2 0h1m3 0h4m4 0h1m1 0h1m2 0h2m1 0h1M2 11.5h1m2 0h1m1 0h1m1 0h3m3 0h4m1 0h1m2 0h1m1 0h1m1 0h1m4 0h6m1 0h1m2 0h1m1 0h3m1 0h2M1 12.5h1m2 0h2m2 0h1m3 0h1m1 0h1m11 0h2m1 0h6m3 0h1m1 0h1m4 0h2m1 0h2M2 13.5h1m2 0h3m4 0h1m7 0h1m1 0h4m4 0h3m2 0h1m1 0h2m2 0h1m2 0h1m1 0h4M1 14.5h3m4 0h2m1 0h2m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m1 0h1m3 0h2m1 0h1m3 0h2m4 0h2m3 0h1M1 15.5h3m1 0h1m1 0h1m1 0h1m1 0h7m1 0h2m1 0h1m2 0h1m1 0h1m4 0h1m1 0h3m2 0h1m6 0h4M1 16.5h1m2 0h3m1 0h2m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m5 0h2m1 0h4m3 0h2m1 0h1m3 0h2m2 0h1M2 17.5h3m1 0h2m1 0h1m1 0h1m5 0h6m1 0h4m9 0h2m1 0h5m2 0h1M1 18.5h1m2 0h1m1 0h1m1 0h3m3 0h2m7 0h2m1 0h1m1 0h5m1 0h1m1 0h2m2 0h1m1 0h4m2 0h1M1 19.5h2m1 0h1m2 0h3m3 0h3m1 0h1m1 0h1m3 0h3m1 0h2m3 0h2m1 0h5m1 0h1m2 0h1m1 0h1m2 0h1M1 20.5h1m3 0h1m2 0h1m1 0h1m1 0h1m1 0h1m4 0h1m4 0h1m1 0h1m2 0h2m2 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m2 0h2M2 21.5h3m2 0h2m5 0h1m3 0h1m2 0h1m1 0h4m1 0h1m1 0h3m2 0h3m2 0h2m5 0h1m1 0h1M1 22.5h3m1 0h1m4 0h3m3 0h2m1 0h2m2 0h1m1 0h1m4 0h3m3 0h3m3 0h4m1 0h2M1 23.5h3m1 0h7m2 0h2m4 0h1m2 0h5m4 0h6m1 0h8m1 0h2M1 24.5h1m1 0h3m3 0h1m1 0h5m1 0h2m1 0h4m3 0h1m1 0h3m1 0h2m6 0h1m3 0h1m2 0h2M3 25.5h3m1 0h1m1 0h2m1 0h1m2 0h1m5 0h3m1 0h1m1 0h1m2 0h2m4 0h6m1 0h1m1 0h5M1 26.5h1m2 0h2m3 0h3m1 0h1m4 0h2m3 0h1m3 0h6m3 0h3m1 0h2m3 0h1m1 0h2M2 27.5h8m1 0h3m4 0h2m3 0h6m3 0h1m1 0h3m1 0h2m1 0h5m2 0h2M1 28.5h3m1 0h2m1 0h2m1 0h1m1 0h3m2 0h3m3 0h3m1 0h2m1 0h1m1 0h3m2 0h2M1 29.5h1m2 0h1m1 0h4m2 0h1m3 0h1m1 0h1m3 0h1m1 0h3m3 0h3m3 0h2m1 0h5m1 0h3m1 0h1M1 30.5h1m3 0h2m1 0h2m2 0h1m2 0h4m1 0h4m1 0h2m2 0h5m3 0h2m1 0h2m1 0h1m2 0h2M3 31.5h2m1 0h4m2 0h3m2 0h3m1 0h1m1 0h1m2 0h1m2 0h1m2 0h2m1 0h2m2 0h2m1 0h2m1 0h1m2 0h2M6 32.5h1m1 0h1m3 0h1m1 0h1m2 0h2m1 0h2m3 0h1m1 0h1m1 0h3m1 0h3m2 0h1m7 0h1m1 0h1M4 33.5h1m1 0h5m1 0h3m2 0h1m1 0h3m1 0h1m2 0h3m7 0h7m2 0h1m1 0h2M4 34.5h1m1 0h1m1 0h2m3 0h1m1 0h1m1 0h3m4 0h2m4 0h5m3 0h1m1 0h3m1 0h1m3 0h1M1 35.5h1m3 0h3m5 0h4m3 0h1m1 0h4m2 0h2m5 0h1m1 0h1m1 0h3m1 0h1m1 0h2m2 0h1M4 36.5h2m3 0h1m1 0h1m1 0h3m2 0h1m1 0h3m1 0h2m1 0h5m1 0h1m1 0h1m5 0h1m6 0h2M1 37.5h2m1 0h2m1 0h3m1 0h1m3 0h2m4 0h1m2 0h1m2 0h1m7 0h3m1 0h4m1 0h2m1 0h1m1 0h1M1 38.5h2m5 0h3m1 0h1m2 0h1m2 0h1m3 0h1m1 0h2m4 0h3m5 0h1m2 0h1m2 0h1m2 0h2M2 39.5h1m3 0h4m3 0h2m1 0h1m3 0h2m1 0h4m3 0h1m2 0h12m1 0h1m1 0h2M2 40.5h3m4 0h3m10 0h1m1 0h1m2 0h5m1 0h1m1 0h1m2 0h1m2 0h1m2 0h3m1 0h1M1 41.5h3m3 0h1m1 0h1m5 0h4m2 0h1m1 0h5m3 0h2m1 0h2m1 0h2m1 0h8m1 0h1M9 42.5h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m3 0h1m3 0h3m3 0h2m2 0h1m3 0h1M1 43.5h7m2 0h2m2 0h3m3 0h1m2 0h1m1 0h1m1 0h1m1 0h1m4 0h2m1 0h3m1 0h1m1 0h1m1 0h5M1 44.5h1m5 0h1m1 0h2m2 0h3m1 0h4m1 0h2m3 0h5m1 0h1m5 0h1m1 0h1m3 0h1m2 0h2M1 45.5h1m1 0h3m1 0h1m1 0h1m2 0h3m2 0h1m2 0h1m2 0h6m1 0h1m3 0h1m1 0h3m2 0h5m1 0h2M1 46.5h1m1 0h3m1 0h1m1 0h1m1 0h2m3 0h1m1 0h1m4 0h2m3 0h5m3 0h3m1 0h2m1 0h5m1 0h1M1 47.5h1m1 0h3m1 0h1m1 0h2m1 0h1m1 0h1m1 0h2m2 0h1m2 0h3m2 0h1m1 0h1m1 0h2m1 0h5m2 0h1m1 0h1M1 48.5h1m5 0h1m3 0h2m1 0h1m7 0h2m5 0h1m1 0h1m1 0h1m8 0h2m2 0h1m2 0h1M1 49.5h7m1 0h1m1 0h2m3 0h2m2 0h3m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m1 0h2m1 0h1m7 0h3"/></svg><div class="qr-txt"><b>Scanne<br>et inscris-toi</b><span>Ton inscription rapporte 1500 à ta liste</span></div></div>
+    <div class="tagline">Les deux listes partent à 1500. Chaque victoire prend des points à l’adversaire. Bonus : la liste la plus inscrite (en %) gagne l’écart en points.</div>
+    <div class="qr"><svg role="img" aria-label="QR code vers l’inscription au qualifier" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 51" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h51v51H0z"/><path stroke="#030335" d="M1 1.5h7m3 0h1m1 0h1m5 0h1m1 0h2m1 0h1m1 0h1m1 0h2m1 0h3m2 0h2m3 0h1m1 0h7M1 2.5h1m5 0h1m5 0h1m1 0h1m2 0h1m1 0h4m1 0h1m1 0h1m2 0h1m1 0h1m1 0h3m1 0h4m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h4m1 0h2m1 0h1m2 0h4m1 0h2m1 0h2m1 0h1m1 0h1m1 0h2m3 0h2m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h4m3 0h1m1 0h1m6 0h1m1 0h1m4 0h1m1 0h5m1 0h1m2 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h1m3 0h9m1 0h1m1 0h1m6 0h1m4 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m3 0h3m3 0h1m1 0h1m1 0h1m3 0h1m1 0h1m2 0h4m1 0h1m1 0h1m3 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h4m4 0h1m1 0h3m1 0h1m3 0h3m1 0h4m1 0h1m1 0h2M1 9.5h1m1 0h5m6 0h1m4 0h1m1 0h7m4 0h1m1 0h5m1 0h2m1 0h5M2 10.5h1m1 0h1m1 0h1m4 0h3m1 0h1m1 0h1m2 0h1m1 0h2m2 0h1m3 0h4m4 0h1m1 0h1m2 0h2m1 0h1M2 11.5h1m2 0h1m1 0h1m1 0h3m3 0h4m1 0h1m2 0h1m1 0h1m1 0h1m4 0h6m1 0h1m2 0h1m1 0h3m1 0h2M1 12.5h1m2 0h2m2 0h1m3 0h1m1 0h1m11 0h2m1 0h6m3 0h1m1 0h1m4 0h2m1 0h2M2 13.5h1m2 0h3m4 0h1m7 0h1m1 0h4m4 0h3m2 0h1m1 0h2m2 0h1m2 0h1m1 0h4M1 14.5h3m4 0h2m1 0h2m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m1 0h1m3 0h2m1 0h1m3 0h2m4 0h2m3 0h1M1 15.5h3m1 0h1m1 0h1m1 0h1m1 0h7m1 0h2m1 0h1m2 0h1m1 0h1m4 0h1m1 0h3m2 0h1m6 0h4M1 16.5h1m2 0h3m1 0h2m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m5 0h2m1 0h4m3 0h2m1 0h1m3 0h2m2 0h1M2 17.5h3m1 0h2m1 0h1m1 0h1m5 0h6m1 0h4m9 0h2m1 0h5m2 0h1M1 18.5h1m2 0h1m1 0h1m1 0h3m3 0h2m7 0h2m1 0h1m1 0h5m1 0h1m1 0h2m2 0h1m1 0h4m2 0h1M1 19.5h2m1 0h1m2 0h3m3 0h3m1 0h1m1 0h1m3 0h3m1 0h2m3 0h2m1 0h5m1 0h1m2 0h1m1 0h1m2 0h1M1 20.5h1m3 0h1m2 0h1m1 0h1m1 0h1m1 0h1m4 0h1m4 0h1m1 0h1m2 0h2m2 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m2 0h2M2 21.5h3m2 0h2m5 0h1m3 0h1m2 0h1m1 0h4m1 0h1m1 0h3m2 0h3m2 0h2m5 0h1m1 0h1M1 22.5h3m1 0h1m4 0h3m3 0h2m1 0h2m2 0h1m1 0h1m4 0h3m3 0h3m3 0h4m1 0h2M1 23.5h3m1 0h7m2 0h2m4 0h1m2 0h5m4 0h6m1 0h8m1 0h2M1 24.5h1m1 0h3m3 0h1m1 0h5m1 0h2m1 0h4m3 0h1m1 0h3m1 0h2m6 0h1m3 0h1m2 0h2M3 25.5h3m1 0h1m1 0h2m1 0h1m2 0h1m5 0h3m1 0h1m1 0h1m2 0h2m4 0h6m1 0h1m1 0h5M1 26.5h1m2 0h2m3 0h3m1 0h1m4 0h2m3 0h1m3 0h6m3 0h3m1 0h2m3 0h1m1 0h2M2 27.5h8m1 0h3m4 0h2m3 0h6m3 0h1m1 0h3m1 0h2m1 0h5m2 0h2M1 28.5h3m1 0h2m1 0h2m1 0h1m1 0h3m2 0h3m3 0h3m1 0h2m1 0h1m1 0h3m2 0h2M1 29.5h1m2 0h1m1 0h4m2 0h1m3 0h1m1 0h1m3 0h1m1 0h3m3 0h3m3 0h2m1 0h5m1 0h3m1 0h1M1 30.5h1m3 0h2m1 0h2m2 0h1m2 0h4m1 0h4m1 0h2m2 0h5m3 0h2m1 0h2m1 0h1m2 0h2M3 31.5h2m1 0h4m2 0h3m2 0h3m1 0h1m1 0h1m2 0h1m2 0h1m2 0h2m1 0h2m2 0h2m1 0h2m1 0h1m2 0h2M6 32.5h1m1 0h1m3 0h1m1 0h1m2 0h2m1 0h2m3 0h1m1 0h1m1 0h3m1 0h3m2 0h1m7 0h1m1 0h1M4 33.5h1m1 0h5m1 0h3m2 0h1m1 0h3m1 0h1m2 0h3m7 0h7m2 0h1m1 0h2M4 34.5h1m1 0h1m1 0h2m3 0h1m1 0h1m1 0h3m4 0h2m4 0h5m3 0h1m1 0h3m1 0h1m3 0h1M1 35.5h1m3 0h3m5 0h4m3 0h1m1 0h4m2 0h2m5 0h1m1 0h1m1 0h3m1 0h1m1 0h2m2 0h1M4 36.5h2m3 0h1m1 0h1m1 0h3m2 0h1m1 0h3m1 0h2m1 0h5m1 0h1m1 0h1m5 0h1m6 0h2M1 37.5h2m1 0h2m1 0h3m1 0h1m3 0h2m4 0h1m2 0h1m2 0h1m7 0h3m1 0h4m1 0h2m1 0h1m1 0h1M1 38.5h2m5 0h3m1 0h1m2 0h1m2 0h1m3 0h1m1 0h2m4 0h3m5 0h1m2 0h1m2 0h1m2 0h2M2 39.5h1m3 0h4m3 0h2m1 0h1m3 0h2m1 0h4m3 0h1m2 0h12m1 0h1m1 0h2M2 40.5h3m4 0h3m10 0h1m1 0h1m2 0h5m1 0h1m1 0h1m2 0h1m2 0h1m2 0h3m1 0h1M1 41.5h3m3 0h1m1 0h1m5 0h4m2 0h1m1 0h5m3 0h2m1 0h2m1 0h2m1 0h8m1 0h1M9 42.5h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m3 0h1m3 0h3m3 0h2m2 0h1m3 0h1M1 43.5h7m2 0h2m2 0h3m3 0h1m2 0h1m1 0h1m1 0h1m1 0h1m4 0h2m1 0h3m1 0h1m1 0h1m1 0h5M1 44.5h1m5 0h1m1 0h2m2 0h3m1 0h4m1 0h2m3 0h5m1 0h1m5 0h1m1 0h1m3 0h1m2 0h2M1 45.5h1m1 0h3m1 0h1m1 0h1m2 0h3m2 0h1m2 0h1m2 0h6m1 0h1m3 0h1m1 0h3m2 0h5m1 0h2M1 46.5h1m1 0h3m1 0h1m1 0h1m1 0h2m3 0h1m1 0h1m4 0h2m3 0h5m3 0h3m1 0h2m1 0h5m1 0h1M1 47.5h1m1 0h3m1 0h1m1 0h2m1 0h1m1 0h1m1 0h2m2 0h1m2 0h3m2 0h1m1 0h1m1 0h2m1 0h5m2 0h1m1 0h1M1 48.5h1m5 0h1m3 0h2m1 0h1m7 0h2m5 0h1m1 0h1m1 0h1m8 0h2m2 0h1m2 0h1M1 49.5h7m1 0h1m1 0h2m3 0h2m2 0h3m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m1 0h2m1 0h1m7 0h3"/></svg><div class="qr-txt"><b>Scanne<br>et inscris-toi</b><span>Chaque inscrit fait monter le bonus de ta liste</span></div></div>
     <div class="foot"><img class="bde" src="bde.jpg" alt="Logo du BDE" onerror="this.hidden=true"><div class="sub" id="status">Mode Rush · chargement des matchs…</div></div>
   </header>
 
@@ -228,40 +228,53 @@ function parseMatches(raw){
   return {list:out, unknown:[...unknown]};
 }
 
-// Elo total d'une liste = somme des Elo de ses inscrits (chacun compte 1500 dès l'inscription)
+// Score d'une liste = 1500 + points Elo gagnés/perdus en match par ses joueurs + bonus d'inscription.
+// Bonus : la liste qui a le plus fort % de membres inscrits gagne l'écart de % en points (90 % contre 79 % → +11).
+const SIZE = {c:0,x:0}; ROSTER.forEach(p=>SIZE[p.l]++);
+function scoreOf(gain, pl){
+  const pc = SIZE.c ? pl.c/SIZE.c*100 : 0, px = SIZE.x ? pl.x/SIZE.x*100 : 0;
+  const bc = Math.max(0, pc-px), bx = Math.max(0, px-pc);
+  return {c:START+gain.c+bc, x:START+gain.x+bx, pc:pl.c, px:pl.x, rc:pc, rx:px, bc, bx};
+}
 function buildSteps(){
   const elo = {}, side = Object.assign({}, registered().ids), get = id => elo[id] ?? START;
-  const total = {c:0,x:0}, pl = {c:0,x:0}, wl = {c:{w:0,l:0}, x:{w:0,l:0}};
-  for (const l of Object.values(side)){ total[l]+=START; pl[l]++; }
-  const out = [{c:total.c,x:total.x,pc:pl.c,px:pl.x,wl:JSON.parse(JSON.stringify(wl)),m:null}];
+  const gain = {c:0,x:0}, pl = {c:0,x:0}, wl = {c:{w:0,l:0}, x:{w:0,l:0}};
+  for (const l of Object.values(side)) pl[l]++;
+  const out = [Object.assign(scoreOf(gain,pl), {wl:JSON.parse(JSON.stringify(wl)), m:null})];
   for (const m of (atlas ? atlas.list : [])){
-    for (const [id,l] of [[m.a,m.la],[m.b,m.lb]]) if (l && !(id in side)){ side[id]=l; total[l]+=START; pl[l]++; }
+    for (const [id,l] of [[m.a,m.la],[m.b,m.lb]]) if (l && !(id in side)){ side[id]=l; pl[l]++; }
     const ra=get(m.a), rb=get(m.b), sa=m.aw?1:0;
     const da = K*(sa - 1/(1+Math.pow(10,(rb-ra)/400)));
     elo[m.a]=ra+da; elo[m.b]=rb-da;
-    if (m.la) total[m.la]+=da; if (m.lb) total[m.lb]-=da;
+    if (m.la) gain[m.la]+=da; if (m.lb) gain[m.lb]-=da;
     if (m.la) wl[m.la][m.aw?'w':'l']++; if (m.lb) wl[m.lb][m.aw?'l':'w']++;
-    out.push({c:total.c, x:total.x, pc:pl.c, px:pl.x, wl:JSON.parse(JSON.stringify(wl)), m, da});
+    out.push(Object.assign(scoreOf(gain,pl), {wl:JSON.parse(JSON.stringify(wl)), m, da}));
   }
   return out;
 }
 
-function niceMax(v){ const t=Math.max(6000, v*1.12); const p=Math.pow(10,Math.floor(Math.log10(t))); return Math.ceil(t/(p/2))*(p/2); }
+// Échelle des colonnes : une fenêtre autour de 1500 qui s'élargit si les scores s'en éloignent
+let floor = 1300;
+function setScale(){
+  const v = steps.flatMap(s=>[s.c,s.x]);
+  const lo = Math.min(1400, ...v) , hi = Math.max(1600, ...v);
+  floor = Math.floor((lo-60)/50)*50; scale = Math.ceil((hi+40)/50)*50;
+}
 
 function paint(vals, step){
   for (const l of ['c','x']){
-    const pct = Math.max(0, Math.min(1, vals[l]/scale));
+    const pct = Math.max(0, Math.min(1, (vals[l]-floor)/(scale-floor)));
     const track = $(l+'-fill').parentElement, h = track.clientHeight, r = $(l+'-run').offsetHeight/2;
     const pos = r + 4 + pct*(h - 2*r - 30);
     $(l+'-fill').style.height = (pos + r)+'px';
     $(l+'-run').style.bottom = pos+'px';
     $(l+'-total').textContent = nf(vals[l]);
-    const p = l==='c'?step.pc:step.px;
-    $(l+'-meta').textContent = `${p} inscrit${p>1?'s':''} · ${step.wl[l].w} V · ${step.wl[l].l} D`;
+    const p = l==='c'?step.pc:step.px, rt_ = l==='c'?step.rc:step.rx, b = l==='c'?step.bc:step.bx;
+    $(l+'-meta').textContent = `${p}/${SIZE[l]} inscrits · ${Math.round(rt_)} %${b>=0.5?` · bonus +${Math.round(b)}`:''}\n${step.wl[l].w} V · ${step.wl[l].l} D`;
   }
-  const lead = vals.c===vals.x ? null : vals.c>vals.x ? 'c' : 'x';
-  $('c-crown').textContent = lead==='c' && vals.c>0 ? ' ♛' : '';
-  $('x-crown').textContent = lead==='x' && vals.x>0 ? ' ♛' : '';
+  const lead = Math.round(vals.c)===Math.round(vals.x) ? null : vals.c>vals.x ? 'c' : 'x';
+  $('c-crown').textContent = lead==='c' ? ' ♛' : '';
+  $('x-crown').textContent = lead==='x' ? ' ♛' : '';
 }
 
 function showDelta(prev, cur){
@@ -277,7 +290,7 @@ function showDelta(prev, cur){
 function tick(i){
   const s = steps[i], t=$('ticker'), n=steps.length-1;
   $('prog').style.width = (n? i/n*100 : 0)+'%';
-  if (!s.m){ t.innerHTML = n ? '<span>Coup d’envoi : chaque inscrit compte 1500 pour sa liste.</span>' : '<span>Coup d’envoi : chaque inscrit compte 1500 pour sa liste. Premier match, premiers points.</span>'; return; }
+  if (!s.m){ t.innerHTML = '<span>Coup d’envoi : les deux listes partent à 1500, plus le bonus d’inscription. Premier match, premiers points.</span>'; return; }
   const m=s.m, w = m.aw ? [m.na,m.la] : [m.nb,m.lb], lo = m.aw ? [m.nb,m.lb] : [m.na,m.la];
   t.innerHTML='';
   const a=document.createElement('span');
@@ -292,7 +305,7 @@ function tick(i){
 function run(from){
   cancelAnimationFrame(anim);
   const n = steps.length-1;
-  scale = niceMax(Math.max(...steps.map(s=>Math.max(s.c,s.x))));
+  setScale();
   if (reduce || from>=n){ shown=n; paint(steps[n],steps[n]); tick(n); $('replay').disabled = n===0; return; }
   const per = Math.max(140, Math.min(700, 9000/(n-from)));
   let i = from, t0 = null;
@@ -318,9 +331,9 @@ function intro(){
   const f = ts => {
     if (t0===null) t0 = ts;
     const s0 = steps[0];
-    scale = niceMax(Math.max(...steps.map(s=>Math.max(s.c,s.x))));
+    setScale();
     const k = Math.min(1,(ts-t0)/D), e = 1-Math.pow(1-k,3);
-    paint({c:s0.c*e, x:s0.x*e}, s0);
+    paint({c:floor+(s0.c-floor)*e, x:floor+(s0.x-floor)*e}, s0);
     if (k<1){ anim = requestAnimationFrame(f); return; }
     introState = 'done';
     ['c','x'].forEach(l=>{ const r=$(l+'-run'); r.classList.remove('hop'); void r.offsetWidth; r.classList.add('hop'); });
