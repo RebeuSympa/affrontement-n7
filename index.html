@@ -398,7 +398,7 @@ $('imp').onclick = async ()=>{
 };
 
 // Matchs relevés sur Atlas (sans les noms des joueurs)
-atlas = {list:[{"a":"c024","b":"x056","la":"c","lb":"x","na":"Joueur Chau7","nb":"Joueur 7xAppeal","aw":true,"sc":"4 : 3"},{"a":"c064","b":"x039","la":"c","lb":"x","na":"Joueur Chau7","nb":"Joueur 7xAppeal","aw":false,"sc":"4 : 3"},{"a":"x072","b":"c018","la":"x","lb":"c","na":"Joueur 7xAppeal","nb":"Joueur Chau7","aw":true,"sc":"8 : 1"},{"a":"c090","b":"x026","la":"c","lb":"x","na":"Joueur Chau7","nb":"Joueur 7xAppeal","aw":true,"sc":"5 : 2"},{"a":"c026","b":"?b4","la":"c","lb":null,"na":"Joueur Chau7","nb":"Joueur hors liste","aw":false,"sc":"6 : 5"},{"a":"c046","b":"?b5","la":"c","lb":null,"na":"Joueur Chau7","nb":"Joueur hors liste","aw":true,"sc":"7 : 3"}], unknown:[]};
+atlas = {list:[{"a":"c024","b":"x056","la":"c","lb":"x","na":"Joueur Chau7","nb":"Joueur 7xAppeal","aw":true,"sc":"4 : 3"},{"a":"c064","b":"x039","la":"c","lb":"x","na":"Joueur Chau7","nb":"Joueur 7xAppeal","aw":false,"sc":"4 : 3"},{"a":"x072","b":"c018","la":"x","lb":"c","na":"Joueur 7xAppeal","nb":"Joueur Chau7","aw":true,"sc":"8 : 1"},{"a":"c090","b":"x026","la":"c","lb":"x","na":"Joueur Chau7","nb":"Joueur 7xAppeal","aw":true,"sc":"5 : 2"},{"a":"c026","b":"?b4","la":"c","lb":null,"na":"Joueur Chau7","nb":"Joueur hors liste","aw":false,"sc":"6 : 5"},{"a":"c046","b":"?b5","la":"c","lb":null,"na":"Joueur Chau7","nb":"Joueur hors liste","aw":true,"sc":"7 : 3"},{"a":"c052","b":"x035","la":"c","lb":"x","na":"Joueur Chau7","nb":"Joueur 7xAppeal","aw":false,"sc":"4 : 2"}], unknown:[]};
 refresh(true);
 let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{ paint(steps[shown],steps[shown]); },150);});
 
@@ -414,7 +414,7 @@ setInterval(()=>{
 let first = true;
 (async ()=>{
   const st = $('status');
-  if (!window.claude || !claude.use){ st.textContent='Mode Rush · inscrits au 09/11 · 6 matchs joués'; return; }
+  if (!window.claude || !claude.use){ st.textContent='Mode Rush · inscrits au 09/11 · 7 matchs joués'; return; }
   db = await claude.use('db');
   if (!db){ st.textContent='Mode Rush · connecte-toi à claude.ai pour voir les matchs'; return; }
   const timer = setTimeout(()=>{ st.textContent='Mode Rush · les matchs ne répondent pas encore'; },10000);
