@@ -31,7 +31,12 @@ h1{font-family:var(--display);font-weight:400;font-size:7vh;margin:0;line-height
 .qr-txt{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:.6vh}
 .qr-txt b{font-family:var(--display);font-weight:400;font-size:3.6vh;line-height:.95;text-transform:uppercase;color:var(--red)}
 .qr-txt span{font-size:1.7vh;font-weight:700;max-width:10vw}
-.league{font-family:var(--display);font-weight:400;font-size:6vh;line-height:1;text-transform:uppercase;letter-spacing:.06em;color:#fff;text-shadow:0 0 2.4vh rgba(53,214,255,.55)}
+.vs{display:flex;flex-direction:column;align-items:center;gap:.4vh}
+.vs-big{font-family:var(--display);font-weight:400;font-size:13vh;line-height:.9;letter-spacing:.04em;background:linear-gradient(90deg,var(--chau),#fff 50%,var(--appeal));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 2.4vh rgba(255,255,255,.25))}
+.gap{font-size:3.2vh;font-weight:700;font-variant-numeric:tabular-nums;color:var(--fg);padding:.6vh 1.6vw;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.gap b{font-family:var(--display);font-weight:400;font-size:4vh;letter-spacing:.02em}
+.gap.flash{animation:gapflash .9s ease-out}
+@keyframes gapflash{0%{box-shadow:0 0 0 0 var(--fl);background:color-mix(in srgb,var(--fl) 45%,transparent)}100%{box-shadow:0 0 0 2vh transparent;background:rgba(255,255,255,.06)}}
 .foot{display:flex;align-items:center;gap:1vw;text-align:left}
 .sub{color:var(--muted);font-size:1.5vh}
 .sub.reload{font-variant-numeric:tabular-nums;opacity:.8;margin-top:.3vh}
@@ -145,7 +150,7 @@ a{color:var(--cyan)}
 
     <div class="mid">
       <img class="event" id="event" src="wingscup.avif" alt="Red Bull Wings Cup" onerror="this.hidden=true">
-      <div class="league">University League</div>
+      <div class="vs" aria-live="polite"><div class="vs-big">VS</div><div class="gap" id="gap">À égalité</div></div>
       <div class="foot"><img class="bde" src="bde.jpg" alt="Logo du BDE" onerror="this.hidden=true"><div><div class="sub" id="status">Mode Rush · chargement des matchs…</div><div class="sub reload" id="reload">Actualisation dans 5:00</div></div></div>
     </div>
 
@@ -274,6 +279,11 @@ function paint(vals, step){
     $(l+'-meta').textContent = `${p}/${SIZE[l]} inscrits · ${Math.round(rt_)} %${b>=0.5?` · bonus +${Math.round(b)}`:''}\n${step.wl[l].w} V · ${step.wl[l].l} D`;
   }
   const lead = Math.round(vals.c)===Math.round(vals.x) ? null : vals.c>vals.x ? 'c' : 'x';
+  const gap = $('gap'), d = Math.abs(Math.round(vals.c)-Math.round(vals.x)), key = (lead||'=')+d;
+  if (gap && gap.dataset.k !== key){
+    gap.dataset.k = key;
+    gap.innerHTML = lead ? `<span style="color:var(--${lead==='c'?'chau':'appeal'})">${NAME[lead]}</span> mène de <b>${nf(d)}</b> pt${d>1?'s':''}` : '<b>Égalité</b>';
+  }
   $('c-crown').textContent = lead==='c' ? ' ♛' : '';
   $('x-crown').textContent = lead==='x' ? ' ♛' : '';
 }
@@ -284,6 +294,7 @@ function showDelta(prev, cur){
     if (Math.abs(d) < 0.5){ el.className='delta'; continue; }
     el.textContent = (d>0?'+':'−')+nf(Math.abs(d));
     el.className = 'delta show '+(d>0?'up':'down');
+    if (d>0 && !reduce && $('gap')){ const g=$('gap'); g.style.setProperty('--fl', `var(--${l==='c'?'chau':'appeal'})`); g.classList.remove('flash'); void g.offsetWidth; g.classList.add('flash'); }
     if (d>0 && !reduce){ const r=$(l+'-run'); r.classList.remove('hop'); void r.offsetWidth; r.classList.add('hop'); }
   }
 }
