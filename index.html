@@ -240,7 +240,8 @@ function scoreOf(gain, pl){
   const bc = Math.max(0, pc-px), bx = Math.max(0, px-pc);
   return {c:START+gain.c+bc, x:START+gain.x+bx, pc:pl.c, px:pl.x, rc:pc, rx:px, bc, bx};
 }
-const interList = () => (atlas ? atlas.list : []).filter(m => m.la && m.lb && m.la !== m.lb);
+// matchs comptés : Chau7 contre 7xAppeal, et un membre contre un joueur hors N7 ; les matchs entre deux joueurs de la même liste sont ignorés
+const interList = () => (atlas ? atlas.list : []).filter(m => (m.la || m.lb) && m.la !== m.lb);
 function buildSteps(){
   const elo = {}, side = Object.assign({}, registered().ids), get = id => elo[id] ?? START;
   const gain = {c:0,x:0}, pl = {c:0,x:0}, wl = {c:{w:0,l:0}, x:{w:0,l:0}};
@@ -248,7 +249,6 @@ function buildSteps(){
   for (const m of (atlas ? atlas.list : [])) for (const [id,l] of [[m.a,m.la],[m.b,m.lb]]) if (l && !(id in side)) side[id]=l;
   for (const l of Object.values(side)) pl[l]++;
   const out = [Object.assign(scoreOf(gain,pl), {wl:JSON.parse(JSON.stringify(wl)), m:null})];
-  // seuls les matchs Chau7 contre 7xAppeal comptent : les matchs internes ou contre un joueur hors liste sont ignorés
   for (const m of interList()){
     const ra=get(m.a), rb=get(m.b), sa=m.aw?1:0;
     const da = K*(sa - 1/(1+Math.pow(10,(rb-ra)/400)));
@@ -419,7 +419,7 @@ setInterval(()=>{
 let first = true;
 (async ()=>{
   const st = $('status');
-  if (!window.claude || !claude.use){ st.textContent='Mode Rush · inscrits au 10/11 · 9 matchs Chau7 – 7xAppeal'; return; }
+  if (!window.claude || !claude.use){ st.textContent='Mode Rush · inscrits au 10/11 · 10 matchs comptés'; return; }
   db = await claude.use('db');
   if (!db){ st.textContent='Mode Rush · connecte-toi à claude.ai pour voir les matchs'; return; }
   const timer = setTimeout(()=>{ st.textContent='Mode Rush · les matchs ne répondent pas encore'; },10000);
@@ -429,7 +429,7 @@ let first = true;
     if (d && Array.isArray(d.raw)) await prep(d.raw.flatMap(([hd])=>String(hd).split(/\s+[–—-]\s+/)));
     atlas = d && Array.isArray(d.raw) ? parseMatches(d.raw) : null;
     const n = interList().length;
-    st.textContent = 'Mode Rush · ' + (n ? `${n} match${n>1?'s':''} Chau7 – 7xAppeal · mis à jour le ${new Date(d.importedAt).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}` : 'aucun match importé pour l\'instant');
+    st.textContent = 'Mode Rush · ' + (n ? `${n} match${n>1?'s':''} comptés · mis à jour le ${new Date(d.importedAt).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}` : 'aucun match importé pour l\'instant');
     showUnknown(); refresh(first); first = false;
   }, ()=>{ clearTimeout(timer); st.textContent='Mode Rush · le direct s\'est arrêté, recharge la page'; });
   db.doc('atlas/registrations').onSnapshot(async snap=>{
