@@ -242,8 +242,8 @@ function scoreOf(gain, pl){
   const bc = Math.max(0, pc-px), bx = Math.max(0, px-pc);
   return {c:START+gain.c+bc, x:START+gain.x+bx, pc:pl.c, px:pl.x, rc:pc, rx:px, bc, bx};
 }
-// matchs comptés : Chau7 contre 7xAppeal, et un membre contre un joueur hors N7 ; les matchs entre deux joueurs de la même liste sont ignorés
-const interList = () => (atlas ? atlas.list : []).filter(m => (m.la || m.lb) && m.la !== m.lb);
+// tous les matchs comptent dès qu'un membre d'une des deux listes joue (un match entre deux joueurs de la même liste rapporte 0 net)
+const interList = () => (atlas ? atlas.list : []).filter(m => m.la || m.lb);
 function buildSteps(){
   const elo = {}, side = Object.assign({}, registered().ids), get = id => elo[id] ?? START;
   const gain = {c:0,x:0}, pl = {c:0,x:0}, wl = {c:{w:0,l:0}, x:{w:0,l:0}};
@@ -447,7 +447,7 @@ let first = true;
     if (d && Array.isArray(d.raw)) await prep(d.raw.flatMap(([hd])=>String(hd).split(/\s+[–—-]\s+/)));
     atlas = d && Array.isArray(d.raw) ? parseMatches(d.raw) : null;
     const n = interList().length;
-    st.textContent = 'Mode Rush · ' + (n ? `${n} match${n>1?'s':''} comptés · mis à jour le ${new Date(d.importedAt).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}` : 'aucun match importé pour l\'instant');
+    st.textContent = 'Mode Rush · ' + (n ? `${n} match${n>1?'s':''} joué${n>1?'s':''} · mis à jour le ${new Date(d.importedAt).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}` : 'aucun match importé pour l\'instant');
     showUnknown(); refresh(first); first = false;
   }, ()=>{ clearTimeout(timer); st.textContent='Mode Rush · le direct s\'est arrêté, recharge la page'; });
   db.doc('atlas/registrations').onSnapshot(async snap=>{

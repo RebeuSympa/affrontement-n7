@@ -12,7 +12,7 @@ Course à l'Elo entre les listes **Chau7** (102 membres) et **7xAppeal** (94 mem
 
 - Les deux listes partent à **1500**.
 - Chaque joueur a son propre Elo (départ 1500, K = 32, pas de match nul en mode Rush). Après chaque match, le score de la liste gagne ou perd les points Elo de son joueur.
-- Comptent : les matchs **Chau7 contre 7xAppeal** et les matchs d'un membre contre un joueur hors N7 (seule la liste du membre bouge). Les matchs entre deux joueurs de la même liste sont ignorés.
+- **Tous les matchs comptent** dès qu'un membre d'une des deux listes joue : contre l'autre liste, contre sa propre liste (0 net pour la liste) ou contre un joueur hors N7 (seule sa liste bouge).
 - **Bonus d'inscription :** la liste qui a le plus fort pourcentage de membres inscrits sur Atlas gagne l'écart de pourcentage en points (exemple : 92 % contre 83 % → +9).
 - L'écran affiche les deux scores, un grand « VS » et l'écart en direct.
 
